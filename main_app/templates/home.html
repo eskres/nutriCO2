@@ -4,4 +4,48 @@
 
     <h1>HOME</h1>
 
+    <main class="container">
+
+        <!-- fullpage.js page divs -->
+        <div id="fullpage">
+
+            <div class="section" id="section1">
+                <div class="fp-bg"></div>
+                <h1>Food info</h1>
+                <h3>It is yummy</h3>
+
+            </div>
+
+            <div class="section" id="section2">
+                <div class="fp-bg"></div>
+                <h1>C02 info</h1>
+                <h3>It is bad</h3>
+              
+                </div>
+
+             <div class="section" id="section3">
+                <div class="fp-bg"></div>
+                <h1>Sign up</h1>
+                <footer>
+                    Footer????
+                </footer>
+
+                </div>
+
+            </div>
+        </div>
+
+        <script>
+            $(document).ready(function() {
+            $('#fullpage').fullpage({
+            //options here
+            autoScrolling:true,
+            scrollHorizontally: true
+            });
+
+        //methods
+            $.fn.fullpage.setAllowScrolling(false);
+            });
+         </script>
+
 {% endblock %}

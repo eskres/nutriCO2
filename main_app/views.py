@@ -1,16 +1,11 @@
 from unicodedata import name
 from django.shortcuts import render
 from django.http import HttpResponse
+from .models import Recipe, Ingredient, User
 
 # Create your views here.
 
-# class Recipe:
-#     def __init__(self, name):
-#         self.name = name
 
-# recipes = [
-#     Recipe('Quiche')
-# ]
 
 def home(request):
     return render(request, 'home.html')
@@ -28,8 +23,8 @@ def recipes_detail(request, recipe_id):
 
 def ingredients_index(request):
     ingredients = Ingredient.objects.all()
-    return render(request, 'ingredients/index.html', { 'ingredients': ingredient})
+    return render(request, 'ingredients/index.html', { 'ingredients': ingredients})
 
-def ingredients_detail(request):
-    ingredients = Ingredient.objects.all()
+def ingredients_detail(request, ingredient_id):
+    ingredient = Ingredient.objects.get(id=ingredient_id)
     return render(request, 'ingredients/detail.html', { 'ingredients': ingredient})
