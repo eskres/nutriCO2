@@ -13,6 +13,7 @@ class Recipe(models.Model):
     method = models.CharField(max_length=300)
     portions = models.SmallIntegerField()
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    # option to make public or keep private?
 
 class Ingredient(models.Model):
     name = models.CharField(max_length=100)
@@ -23,6 +24,12 @@ class User(models.Model):
     name = models.CharField(max_length=100)
     email = models.CharField(max_length=100)
     image = models.ImageField(upload_to = 'main_app/static/uploads/', default="")
+
+# USER SPECIFIC
+class CustomIngredient(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.CharField(max_length=100, default="")
+    allergy = models.CharField(max_length=100)
 
     
 
