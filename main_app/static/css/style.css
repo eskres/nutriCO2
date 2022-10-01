@@ -1,5 +1,5 @@
 #section1 {
-    background-color: rgb(193, 206, 206);
+    background-color: bisque;
 }
 
 #section2 {
@@ -7,5 +7,9 @@
 }
 
 #section3 {
-    background-color: rgb(95, 95, 95);
+    background-color: rgb(115, 131, 113);
+}
+
+#section4 {
+    background-color: rgb(195, 127, 127);
 }

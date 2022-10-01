@@ -20,6 +20,13 @@ urlpatterns = [
     path('ingredients/<int:pk>/update', views.IngredientUpdate.as_view(), name='ingredients_update'),
     path('ingredients/<int:pk>/delete', views.IngredientDelete.as_view(), name='ingredients_delete'),
 
+
+    #ASSOCIATE INGREDIENT WITH CAT
+    path('recipes/<int:recipe_id>/assoc_ingredient/<int:ingredient_id>', views.assoc_ingredient, name="assoc_ingredient"),
+    #UNASSOCIATE INGREDIENT FROM CAT
+    path('recipes/<int:recipe_id>/assoc_ingredient/<int:ingredient_id>', views.unassoc_ingredient, name="unassoc_ingredient"),
+
+
     #SIGN UP
     path('accounts/signup/', views.signup, name='signup')
 

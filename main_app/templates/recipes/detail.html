@@ -4,4 +4,18 @@
 
     <h1>RECIPE DETAIL SCREEN</h1>
 
+    <div class="card">
+        <div class="card-content">
+            <span class="card-title">{{ recipe.name }}<span>
+                <p>Description: {{ recipe.description }} </p>
+                <p>Image: {{ recipe.image }}<p></p>
+                <p>Category: {{ receipte.category }}</p>
+                <p>Ingredients: {{ recipe.ingredients }} </p>
+                <!-- can we get ingredients to auto flag any allergies? I.e. if cheese is an ingredient it would flag up dairy? -->
+                <p>Method: {{ recipe.method }}</p>
+                <p>Portions: {{ recipe.portions }}</p>
+                <p>Nutritional Value: {{ recipe.nutrition }}</p>
+                <p>Carbon Emissions of Ingredients: {{ recipe.emissions }}</p>
+                <!-- <p>Users: {{ recipe.portions }}</p> -->
+
 {% endblock %}
