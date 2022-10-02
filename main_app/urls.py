@@ -28,6 +28,9 @@ urlpatterns = [
 
 
     #SIGN UP
-    path('accounts/signup/', views.signup, name='signup')
+    path('accounts/signup/', views.signup, name='signup'),
+    #LOGIN
+    path('accounts/login', views.login, name='login'),
+
 
 ]

@@ -51,6 +51,7 @@ def recipes_detail(request, recipe_id):
 
 
 #INGREDIENTS CRUD
+
 class IngredientList(LoginRequiredMixin, ListView):
     model = Ingredient
 
