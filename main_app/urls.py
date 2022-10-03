@@ -1,6 +1,7 @@
 
 from django.urls import path
 from . import views
+from .views import nav_view
 
 urlpatterns = [
     path('', views.home, name='home'),
@@ -31,6 +32,9 @@ urlpatterns = [
     path('accounts/signup/', views.signup, name='signup'),
     #LOGIN
     path('accounts/login', views.login, name='login'),
+
+    path('', nav_view),
+
 
 
 ]

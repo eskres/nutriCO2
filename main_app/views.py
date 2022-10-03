@@ -45,11 +45,6 @@ def recipes_detail(request, recipe_id):
     # return render(request, 'recipes/detail.html', {'recipe': recipe, 'ingredients': ingredients_recipe_doesnt_have})
 
 
-
-
-
-
-
 #INGREDIENTS CRUD
 
 class IngredientList(LoginRequiredMixin, ListView):
@@ -81,7 +76,6 @@ def ingredients_detail(request, ingredient_id):
     return render(request, 'ingredients/detail.html', { 'ingredients': ingredient})
 
 
-
 def signup(request):
     error_message =""
     if request.method == "POST":
@@ -95,6 +89,7 @@ def signup(request):
             error_message = "Invalid signup"
 
 
+
 #ASSOCIATE AND UNASSOCIATE INGREDIENTS WITH RECIPES
 
 def assoc_ingredient(request, recipe_id, ingredient_id):
@@ -104,3 +99,10 @@ def assoc_ingredient(request, recipe_id, ingredient_id):
 def unassoc_ingredient(request, recipe_id, ingredient_id):
     Recipe.objects.get(id = recipe_id).ingredients.remove(ingredient_id)
     return redirect('detail', recipe_id = recipe_id)
+
+
+#NAV BAR
+def nav_view(request):
+  
+    # return response
+    return render(request, "nav.html.html")

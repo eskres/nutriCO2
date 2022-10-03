@@ -13,9 +13,6 @@ class Recipe(models.Model):
     category = models.CharField(max_length=100, default="")
     ingredients = models.CharField(max_length=300, default="")
     ing = models.CharField(max_length=300)
-    ing1 = models.CharField(max_length=300)
-    ing2 = models.CharField(max_length=300)
-    # method coule be potential image upload?
     method = models.CharField(max_length=300, default="")
     # need to find default value for portions
     # portions = models.SmallIntegerField(default="4")
@@ -39,10 +36,10 @@ class Ingredient(models.Model):
     def get_absolute_url(self):
         return reverse('ingredients_detail', kwargs={'pk': self.id})
 
-# class User(models.Model):
-#     name = models.CharField(max_length=100)
-#     email = models.CharField(max_length=100)
-#     image = models.ImageField(upload_to = 'main_app/static/uploads/', default="")
+class User(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.CharField(max_length=100)
+    image = models.ImageField(upload_to = 'main_app/static/uploads/', default="")
 
 # USER SPECIFIC
 class CustomIngredient(models.Model):

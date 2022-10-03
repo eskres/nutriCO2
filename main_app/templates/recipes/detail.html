@@ -1,4 +1,7 @@
 {% extends 'base.html' %}
+{% include 'nav.html' %}
+
+
 
 {% block content %}
 
@@ -8,7 +11,7 @@
         <div class="card-content">
             <span class="card-title">{{ recipe.name }}<span>
                 <p>Description: {{ recipe.description }} </p>
-                <p>Image: {{ recipe.image }}<p></p>
+                <p>Image: {{ recipe.image }}<p></p> 
                 <p>Category: {{ receipte.category }}</p>
                 <p>Ingredients: {{ recipe.ingredients }} </p>
                 <!-- can we get ingredients to auto flag any allergies? I.e. if cheese is an ingredient it would flag up dairy? -->
@@ -17,5 +20,10 @@
                 <p>Nutritional Value: {{ recipe.nutrition }}</p>
                 <p>Carbon Emissions of Ingredients: {{ recipe.emissions }}</p>
                 <!-- <p>Users: {{ recipe.portions }}</p> -->
+
+                <a href="{% url 'recipes_update' recipe.id %}">Edit</a>
+                <a href="{% url 'recipes_delete' recipe.id %}">Delete</a>
+        </div>
+    </div>
 
 {% endblock %}
