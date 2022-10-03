@@ -41,6 +41,7 @@ def recipes_index(request):
     recipes = Recipe.objects.all()
     return render(request, 'recipes/index.html', { 'recipes': recipes})
 
+@login_required
 def recipes_detail(request, recipe_id):
     recipe = Recipe.objects.get(id=recipe_id)
     return render(request, 'recipes/detail.html'),
@@ -111,7 +112,21 @@ def nav_view(request):
 
 #USER DETAILS
 def user_detail(request, user_id):
-    ingredient = User.objects.get(id=user_id)
-    return render(request, 'user/detail.html'),
+    user = User.objects.get(id=user_id)
+    return render(request, 'user/detail.html', { 'user': user})
 
 
+class UserDetail(LoginRequiredMixin, DetailView):
+    model = User
+
+class UserCreate(LoginRequiredMixin, CreateView):
+    model = User
+    fields = '__all__'
+
+class UserUpdate(LoginRequiredMixin, UpdateView):
+    model = User
+    fields = '__all__'
+
+class UserDelete(LoginRequiredMixin, DeleteView):
+    model = User
+    success_url = '/'

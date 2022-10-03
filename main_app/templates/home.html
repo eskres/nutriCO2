@@ -36,6 +36,17 @@
         <div class="fp-bg"></div>
         <h1>Sign up</h1>
 
+        {% if error_message %}
+        <p class="red-text"> {{ error_message }}</p>
+        {% endif %}
+
+        <p>WANT FULL SIGN UP FORM HERE AND WANT 'SIGN' UP BOTTON IN NAV TO LINK HERE - ASK SAAD</p>
+        <form action="{% url 'signup' %}" method="POST">
+            {% csrf_token %}
+            {{ form.as_p}}
+            <input type="submit" value="Signup" class="btn"/>
+        </form>
+
     </div>
     <footer>
         Footer????

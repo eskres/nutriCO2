@@ -11,22 +11,23 @@
 
             {% if user.is_authenticated %}
   
-                <li><a href="">My Recipes</a></li>
+                <li><a href="{% url 'recipes_index' %}">My Recipes</a></li>
+                <li><a href="{% url 'ingredients_index' %}">My Ingredients</a></li>
                 <li><a href="{% url 'recipes_create' %}">Add Recipes</a></li>
-                <li><a href="{% url 'index' %}">All Recipes</a></li>
-                <li><a href="">My Ingredients</a></li>
                 <li><a href="{% url 'ingredients_create' %}">Add Ingredients</a></li>
-                <li><a href="">Profile</a></li>
+                <li><a href="{% url 'recipes_index' %}">All Recipes</a></li>
+                
+                <li><a href="{% url 'user_detail' user.id %}">Profile</a></li>
                 <li><a href="{% url 'logout' %}">Log Out</a></li>
     
 
 
             {% else %}
 
+                <li><a href="{% url 'recipes_index' %}">Recipes</a></li>
                 <li><a href="{% url 'signup' %}">Sign Up</a></li>
                 <!-- if signed in updates to signed out -->
                 <li><a href="{% url 'login' %}">Login</a></li>
-                <li><a href="{% url 'index' %}">Recipes</a></li>
             </ul>
 
             {% endif %}
