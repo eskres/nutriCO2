@@ -81,12 +81,13 @@ WSGI_APPLICATION = 'Project03.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.getenv('DATABASENAME'),
-        'USER': os.getenv('DATABASEUSER'),
-        'PASSWORD': os.getenv('DATABASEPASSWORD'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'nutrico',
+        'USER': 'postgres',
+        'PASSWORD': '12345',
     }
 }
+
 
 
 # Password validation
