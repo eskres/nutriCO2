@@ -15,16 +15,16 @@ urlpatterns = [
     path('recipes/<int:pk>/delete/', views.RecipeDelete.as_view(), name='recipes_delete'),
 
     #INGREDIENTS
-    path('ingredients/', views.ingredients_index, name='index'),
+    path('ingredients/', views.ingredients_index, name='ingredients_index'),
     path('ingredients/<int:ingredient_id>', views.ingredients_detail, name='detail'),
     path('ingredients/create/', views.IngredientCreate.as_view(), name='ingredients_create'),
     path('ingredients/<int:pk>/update', views.IngredientUpdate.as_view(), name='ingredients_update'),
     path('ingredients/<int:pk>/delete', views.IngredientDelete.as_view(), name='ingredients_delete'),
 
 
-    #ASSOCIATE INGREDIENT WITH CAT
+    #ASSOCIATE INGREDIENT
     path('recipes/<int:recipe_id>/assoc_ingredient/<int:ingredient_id>', views.assoc_ingredient, name="assoc_ingredient"),
-    #UNASSOCIATE INGREDIENT FROM CAT
+    #UNASSOCIATE INGREDIENT
     path('recipes/<int:recipe_id>/assoc_ingredient/<int:ingredient_id>', views.unassoc_ingredient, name="unassoc_ingredient"),
 
 
@@ -33,6 +33,7 @@ urlpatterns = [
     #LOGIN
     path('accounts/login', views.login, name='login'),
 
+    # Same
     path('', nav_view),
 
 

@@ -1,58 +1,9 @@
 {% extends 'base.html' %}
 
 {% block content %}
+{% include 'nav.html' %}
 
     <h1>ABOUT/METHODOLOGY</h1>
 
-    <header class="navbar-fixed">
-        <nav>
-            <div class="nav-wrapper">
-                <ul>
-                    <li><a href="{% url 'home' %}" class="left brand-logo">Nutrico</a></li>
-                </ul>
-    
-                <ul class="right">
-                    <li><a href="{% url 'about' %}">About</a></li>
-                </ul>
-    
-                {% if user.is_authenticated %}
-                <ul class="right">
-                    <li><a href="">My Recipes</a></li>
-                </ul>
-                <ul class="right">
-                    <li><a href="{% url 'recipes_create' %}">Add Recipes</a></li>
-                </ul>
-                <ul class="right">
-                    <li><a href="{% url 'index' %}">All Recipes</a></li>
-                </ul>
-                <ul class="right">
-                    <li><a href="">My Ingredients</a></li>
-                </ul>
-                <ul class="right">
-                    <li><a href="{% url 'ingredients_create' %}">Add Ingredients</a></li>
-                </ul>
-    
-                <ul class="right">
-                    <li><a href="{% url 'logout' %}">Log Out</a></li>
-                </ul>
-
-
-                {% else %}
-                <ul class="right">
-                    <li><a href="{% url 'signup'%} ">Sign Up</a></li>
-                    <!-- if signed in updates to signed out -->
-                </ul>
-                <ul class="right">
-                    <li><a href="{% url 'login' %}">Login</a></li>
-                </ul>
-                <ul class="right">
-                    <li><a href="{% url 'about' %}">Recipes</a></li>
-                </ul>
-    
-                {% endif %}
-    
-            
-    
-    </header>
 
 {% endblock %}

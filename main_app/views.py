@@ -8,6 +8,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.template import loader
 
 # Create your views here.
 
@@ -42,7 +43,7 @@ def recipes_index(request):
 
 def recipes_detail(request, recipe_id):
     recipe = Recipe.objects.get(id=recipe_id)
-    # return render(request, 'recipes/detail.html', {'recipe': recipe, 'ingredients': ingredients_recipe_doesnt_have})
+    return render(request, 'recipes/detail.html'),
 
 
 #INGREDIENTS CRUD
@@ -84,9 +85,13 @@ def signup(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect('index')
+            return redirect('/')
         else:
             error_message = "Invalid signup"
+
+    form = UserCreationForm()
+    context = {'form': form, 'error_message': error_message}
+    return render(request, 'registration/signup.html', context)
 
 
 
@@ -103,6 +108,4 @@ def unassoc_ingredient(request, recipe_id, ingredient_id):
 
 #NAV BAR
 def nav_view(request):
-  
-    # return response
-    return render(request, "nav.html.html")
+    return render(request, "nav.html")
