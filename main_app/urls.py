@@ -36,6 +36,4 @@ urlpatterns = [
     # Same
     path('', nav_view),
 
-
-
 ]

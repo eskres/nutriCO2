@@ -1,5 +1,6 @@
 from curses import COLOR_BLUE
 from datetime import date
+from email.mime import image
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
@@ -8,11 +9,10 @@ from django.contrib.auth.models import User
 
 class Recipe(models.Model):
     name = models.CharField(max_length=100)
-    image = models.ImageField(upload_to = 'main_app/static/uploads/', default="")
+    upload_image_of_ingredients = models.ImageField(upload_to = 'main_app/static/uploads/', default="")
     description = models.CharField(max_length=100)
     category = models.CharField(max_length=100, default="")
     ingredients = models.CharField(max_length=300, default="")
-    ing = models.CharField(max_length=300)
     method = models.CharField(max_length=300, default="")
     # need to find default value for portions
     # portions = models.SmallIntegerField(default="4")

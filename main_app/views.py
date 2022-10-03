@@ -16,7 +16,7 @@ from django.template import loader
 #RECIPES CRUD
 class RecipeCreate(LoginRequiredMixin, CreateView):
     model = Recipe
-    fields = ['name']
+    fields = '__all__'
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -24,7 +24,7 @@ class RecipeCreate(LoginRequiredMixin, CreateView):
 
 class RecipeUpdate(LoginRequiredMixin, UpdateView):
     model = Recipe
-    fields = ['name']
+    fields = '__all__'
 
 class RecipeDelete(LoginRequiredMixin, DeleteView):
     model = Recipe
