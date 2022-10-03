@@ -105,7 +105,13 @@ def unassoc_ingredient(request, recipe_id, ingredient_id):
     Recipe.objects.get(id = recipe_id).ingredients.remove(ingredient_id)
     return redirect('detail', recipe_id = recipe_id)
 
-
 #NAV BAR
 def nav_view(request):
     return render(request, "nav.html")
+
+#USER DETAILS
+def user_detail(request, user_id):
+    ingredient = User.objects.get(id=user_id)
+    return render(request, 'user/detail.html'),
+
+

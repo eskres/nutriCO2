@@ -33,6 +33,9 @@ urlpatterns = [
     #LOGIN
     path('accounts/login', views.login, name='login'),
 
+    #USER
+    path('user/<int:user_id>', views.user_detail, name='user_detail'),
+
     # Same
     path('', nav_view),
 
