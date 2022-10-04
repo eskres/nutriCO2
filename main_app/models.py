@@ -1,4 +1,3 @@
-from curses import COLOR_BLUE
 from datetime import date
 from email.mime import image
 from django.db import models
@@ -17,7 +16,7 @@ class Recipe(models.Model):
     # need to find default value for portions
     # portions = models.SmallIntegerField(default="4")
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    # option to make recipe public or keep private?
+    # # option to make recipe public or keep private?
 
     def get_absolute_url(self):
         return reverse('detail', kwargs = {'recipe_id': self.id })

@@ -19,9 +19,19 @@ class RecipeCreate(LoginRequiredMixin, CreateView):
     model = Recipe
     fields = '__all__'
 
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super().form_valid(form)
+    # def recipe_form(self, request):
+    #     if request.method == "POST":
+    #         form = recipe_form(request.POST)
+    #         if form.is_valid():
+    #             form.save()
+    #             messages.success(request, 'Recipe added succesfully.')
+    #             return render(request, 'recipes/index.html', { 'recipes': recipe})
+
+    #         else:
+    #             messages.error(request, 'Invalid form; please try again')
+    #             return render(request, 'home.html')
+            
+                             
 
 class RecipeUpdate(LoginRequiredMixin, UpdateView):
     model = Recipe
@@ -85,9 +95,15 @@ def signup(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
+            messages.success(request, 'Your registration was successful')
             return redirect('/')
+    
+            
         else:
-            error_message = "Invalid signup"
+            messages.error(request, 'Your registration was unsuccessful; please try again later')
+            return redirect('/')  
+
+
 
     form = UserCreationForm()
     context = {'form': form, 'error_message': error_message}
@@ -112,6 +128,8 @@ def user_detail(request, user_id):
     user = User.objects.get(id=user_id)
     return render(request, 'user/detail.html', { 'user': user})
 
+
+
 #USER CRUD
 class UserDetail(LoginRequiredMixin, DetailView):
     model = User
@@ -129,12 +147,9 @@ class UserDelete(LoginRequiredMixin, DeleteView):
     model = User
     success_url = '/'
 
-# FLASH MESSAGE FOR LOGOUT
-# @require_http_methods(["GET", "POST"])
-@login_required(login_url='/login', redirect_field_name='')
-def do_logout(request):
-    assert isinstance(request, HttpRequest)
 
-    messages.add_message(request, messages.INFO, '{0} logged out.'.format(request.user))
-    logout(request)
-    return redirect('home')
+
+
+
+
+
