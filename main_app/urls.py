@@ -1,7 +1,7 @@
 
 from django.urls import path
 from . import views
-from .views import nav_view
+from .views import nav_view, image_to_text
 
 urlpatterns = [
     path('', views.home, name='home'),
@@ -36,7 +36,9 @@ urlpatterns = [
     #USER
     path('user/<int:user_id>', views.user_detail, name='user_detail'),
 
-    # Same
+    # NAV
     path('', nav_view),
 
+    # IMAGE FORM
+    path('form/', views.image_to_text, name='form'),
 ]
