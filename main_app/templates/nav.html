@@ -21,7 +21,6 @@
                 <li><a href="{% url 'logout' %}">Log Out</a></li>
     
 
-
             {% else %}
 
                 <li><a href="{% url 'recipes_index' %}">Recipes</a></li>
@@ -33,4 +32,10 @@
             {% endif %}
         </div>
     </nav>
+
 </header>
+<div class="messages">
+    {% include 'main_app/messages.html' %}
+</div>
+
+

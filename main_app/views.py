@@ -85,9 +85,15 @@ def signup(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
+            messages.success(request, 'Your registration was successful')
             return redirect('/')
+    
+            
         else:
-            error_message = "Invalid signup"
+            messages.error(request, 'Your registration was unsuccessful; please try again later')
+            return redirect('/')  
+
+
 
     form = UserCreationForm()
     context = {'form': form, 'error_message': error_message}
@@ -129,12 +135,11 @@ class UserDelete(LoginRequiredMixin, DeleteView):
     model = User
     success_url = '/'
 
-# FLASH MESSAGE FOR LOGOUT
-# @require_http_methods(["GET", "POST"])
-@login_required(login_url='/login', redirect_field_name='')
-def do_logout(request):
-    assert isinstance(request, HttpRequest)
+def log_out(request):
+    if log_out.is_valid():
+        messages.success(request, 'You have succesfully logged out')
 
-    messages.add_message(request, messages.INFO, '{0} logged out.'.format(request.user))
-    logout(request)
-    return redirect('home')
+
+
+
+
