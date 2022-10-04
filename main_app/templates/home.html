@@ -1,18 +1,19 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
 <div id="fullpage">
+    
+    <div class="section active fp-auto-height">
+        {% include 'nav.html' %}
+    </div>
 
-
-    <div class="section active" id="section1">
-        <div class="nav">
-            {% include 'nav.html' %}
-            
+    <div class="section" id="section1">
+        <div class="fp-bg" id="">
+            <h3>Upload your recipes to 
+                <br>calculate their Nutritional Value
+                <br>and Carbon Footprint</h3>
         </div>
-        <div class="fp-bg"></div>
-        <h3>Upload your recipes to 
-            <br>calculate their Nutritional Value
-            <br>and Carbon Footprint</h3>
     </div>
 
     <div class="section" id="section2">
@@ -36,22 +37,16 @@
         <div class="fp-bg"></div>
         <h1>Sign up</h1>
 
-
     </div>
     <footer>
         Footer????
     </footer>
     </div>
-
-
-
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/4.0.11/fullpage.min.js" integrity="sha512-ojnoeSkK5NDwnuW5S0ZnddobHez8Bx1yVa3RE+Cd0fGEuY/NEd4sgVF/CJ6eDtnOeLZLbTJpNFrCkUYbHS2hRA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script type="text/javascript">
-    var myFullpage = new fullpage('#fullpage', {
-    });
+    <script type="text/javascript">
+        var myFullpage = new fullpage('#fullpage', {navigation: "true"});
 </script>
-
 
 {% endblock %}
