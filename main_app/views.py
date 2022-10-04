@@ -9,6 +9,7 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.template import loader
+from django.contrib import messages
 
 # Create your views here.
 
@@ -68,7 +69,6 @@ class IngredientDelete(LoginRequiredMixin, DeleteView):
     success_url = '/ingredients/'
 
 
-
 def ingredients_index(request):
     ingredients = Ingredient.objects.all()
     return render(request, 'ingredients/index.html', { 'ingredients': ingredients})
@@ -76,7 +76,6 @@ def ingredients_index(request):
 def ingredients_detail(request, ingredient_id):
     ingredient = Ingredient.objects.get(id=ingredient_id)
     return render(request, 'ingredients/detail.html', { 'ingredients': ingredient})
-
 
 def signup(request):
     error_message =""
@@ -93,8 +92,6 @@ def signup(request):
     form = UserCreationForm()
     context = {'form': form, 'error_message': error_message}
     return render(request, 'registration/signup.html', context)
-
-
 
 #ASSOCIATE AND UNASSOCIATE INGREDIENTS WITH RECIPES
 
@@ -115,9 +112,10 @@ def user_detail(request, user_id):
     user = User.objects.get(id=user_id)
     return render(request, 'user/detail.html', { 'user': user})
 
-
+#USER CRUD
 class UserDetail(LoginRequiredMixin, DetailView):
     model = User
+    fields = '__all__'
 
 class UserCreate(LoginRequiredMixin, CreateView):
     model = User
@@ -130,3 +128,13 @@ class UserUpdate(LoginRequiredMixin, UpdateView):
 class UserDelete(LoginRequiredMixin, DeleteView):
     model = User
     success_url = '/'
+
+# FLASH MESSAGE FOR LOGOUT
+# @require_http_methods(["GET", "POST"])
+@login_required(login_url='/login', redirect_field_name='')
+def do_logout(request):
+    assert isinstance(request, HttpRequest)
+
+    messages.add_message(request, messages.INFO, '{0} logged out.'.format(request.user))
+    logout(request)
+    return redirect('home')

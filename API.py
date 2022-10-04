@@ -1,4 +1,3 @@
-
 # import requests
 
 # url = "https://api.apilayer.com/image_to_text/url?url="
