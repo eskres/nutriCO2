@@ -28,13 +28,14 @@ urlpatterns = [
     path('recipes/<int:recipe_id>/assoc_ingredient/<int:ingredient_id>', views.unassoc_ingredient, name="unassoc_ingredient"),
 
 
-    #SIGN UP
+    #USER
     path('accounts/signup/', views.signup, name='signup'),
+    path('user/<int:user_id>', views.UserDetail.as_view, name='user_detail'),
+    path('user/<int:pk>/update', views.UserUpdate.as_view(), name='user_update'),
+    path('user/<int:pk>/delete', views.UserDelete.as_view(), name='user_delete'),
+    
     #LOGIN
     path('accounts/login', views.login, name='login'),
-
-    #USER
-    path('user/<int:user_id>', views.user_detail, name='user_detail'),
 
     # NAV
     path('', nav_view),
