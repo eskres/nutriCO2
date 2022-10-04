@@ -9,6 +9,7 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.template import loader
+from .forms import ImageTextForm
 
 # Create your views here.
 
@@ -130,3 +131,20 @@ class UserUpdate(LoginRequiredMixin, UpdateView):
 class UserDelete(LoginRequiredMixin, DeleteView):
     model = User
     success_url = '/'
+
+
+def image_to_text(request):
+    # if this is a POST request we need to process the form data
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = ImageTextForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            imageFile = request.FILES["file"]
+            receipt_image = imageFile.read()
+            print('!', receipt_image)
+            return redirect('/')
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        form = ImageTextForm()
+    return render(request, 'main_app/image_to_text.html', {'form': form})

@@ -1,4 +1,3 @@
-from curses import COLOR_BLUE
 from datetime import date
 from email.mime import image
 from django.db import models
