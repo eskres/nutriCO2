@@ -22,7 +22,10 @@
                 <p>Carbon Emissions of Ingredients: {{ recipe.emissions }}</p>
                 <!-- <p>Users: {{ recipe.portions }}</p> -->
 
-       
+                <div class="card-action">
+                    <a href="{% url 'recipe_update' recipe.id %}">Edit</a>
+                    <a href="{% url 'recipe_delete' recipe.id %}">Delete</a>
+                </div>
 
              
         </div>

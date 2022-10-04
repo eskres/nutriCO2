@@ -19,9 +19,19 @@ class RecipeCreate(LoginRequiredMixin, CreateView):
     model = Recipe
     fields = '__all__'
 
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super().form_valid(form)
+    # def recipe_form(self, request):
+    #     if request.method == "POST":
+    #         form = recipe_form(request.POST)
+    #         if form.is_valid():
+    #             form.save()
+    #             messages.success(request, 'Recipe added succesfully.')
+    #             return render(request, 'recipes/index.html', { 'recipes': recipe})
+
+    #         else:
+    #             messages.error(request, 'Invalid form; please try again')
+    #             return render(request, 'home.html')
+            
+                             
 
 class RecipeUpdate(LoginRequiredMixin, UpdateView):
     model = Recipe
@@ -118,6 +128,8 @@ def user_detail(request, user_id):
     user = User.objects.get(id=user_id)
     return render(request, 'user/detail.html', { 'user': user})
 
+
+
 #USER CRUD
 class UserDetail(LoginRequiredMixin, DetailView):
     model = User
@@ -135,9 +147,7 @@ class UserDelete(LoginRequiredMixin, DeleteView):
     model = User
     success_url = '/'
 
-def log_out(request):
-    if log_out.is_valid():
-        messages.success(request, 'You have succesfully logged out')
+
 
 
 
