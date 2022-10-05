@@ -5,6 +5,26 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 
 # Create your models here.
+# USER SPECIFIC INGREDIENTS
+class CustomIngredient(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.CharField(max_length=100, default="")
+
+# INGREDIENTS PROVIDED WITH CO2E/KG DATA
+class Ingredient(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.CharField(max_length=100, default="")
+    category = models.CharField(max_length=100, default="")
+    production_region = models.CharField(max_length=100, default="")
+    co2e_min = models.FloatField()
+    co2e_max = models.FloatField()
+    co2e_med = models.FloatField()
+
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse('ingredients_detail', kwargs={'pk': self.id})
 
 class Recipe(models.Model):
     name = models.CharField(max_length=100)
@@ -12,7 +32,8 @@ class Recipe(models.Model):
     upload_image_of_ingredients = models.ImageField(upload_to = 'main_app/static/uploads/', default="")
     description = models.CharField(max_length=100)
     category = models.CharField(max_length=100, default="")
-    ingredients = models.CharField(max_length=300, default="")
+    custom_ingredients = models.ManyToManyField(CustomIngredient)
+    ingredients = models.ManyToManyField(Ingredient)
     method = models.CharField(max_length=300, default="")
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     # user id? 
@@ -24,29 +45,7 @@ class Recipe(models.Model):
     def __str__(self):
         return self.name
 
-class Ingredient(models.Model):
-    name = models.CharField(max_length=100)
-    description = models.CharField(max_length=100, default="")
-    allergy = models.CharField(max_length=100, default="")
-
-    def __str__(self):
-        return self.name
-
-    def get_absolute_url(self):
-        return reverse('ingredients_detail', kwargs={'pk': self.id})
-
 class User(models.Model):
     name = models.CharField(max_length=100)
     email = models.CharField(max_length=100)
     image = models.ImageField(upload_to = 'main_app/static/uploads/', default="")
-
-# USER SPECIFIC
-class CustomIngredient(models.Model):
-    name = models.CharField(max_length=100)
-    description = models.CharField(max_length=100, default="")
-    allergy = models.CharField(max_length=100)
-    
-
-
-
-

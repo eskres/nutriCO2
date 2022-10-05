@@ -2,21 +2,30 @@
 
 {% block content %}
 {% include 'nav.html' %}
-{% if object %}
-    <h1>Edit <span class="teal-text">{{ object.name }}</span> </h1>
-{% else %}
-    <h1>Add Recipe</h1>
-{% endif%}
+<div class="container">
 
-<form action="" method="post" enctype="multipart/form-data">
+    {% if object %}
+        <h1>Edit {{ object.name }} </h1>
+    {% else %}
+        <h1>Add Recipe</h1>
+    {% endif%}
+    
+    <form action="" method="post" enctype="multipart/form-data">
+    
+        {% csrf_token %}
+        <table>
+        {{ form.as_table }}
+        </table>
+    
+        <input type="submit" value="submit" class="btn btn-primary">
 
-    {% csrf_token %}
-    <table>
-    {{ form.as_table }}   
-    </table>
+    </form>
 
-    <input type="submit" value="submit" class="btn">
+</div>
 
-</form>
+<!-- STEP 1 -> SELECT ALL INGREDIENTS -> SEARCH -> VIEW RESULTS -> SELECT INGREDIENT -> ADD
+REPEAT STEP 1 AS REQUIRED
+STEP 2 -> RECIPE FORM INCLUDING INGREDIENT QTY EXCLUDING RECIPE METHOD
+STEP 3 -> RECIPE METHOD IMAGE UPLOAD -->
 
 {% endblock %}

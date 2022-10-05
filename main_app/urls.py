@@ -14,12 +14,12 @@ urlpatterns = [
     path('recipes/<int:pk>/update/', views.RecipeUpdate.as_view(), name='recipe_update'),
     path('recipes/<int:pk>/delete/', views.RecipeDelete.as_view(), name='recipe_delete'),
 
-    #INGREDIENTS
-    path('ingredients/', views.IngredientList.as_view(), name='ingredients_index'),
-    path('ingredients/<int:ingredient_id>', views.ingredients_detail, name='ingredient_detail'),
-    path('ingredients/create/', views.IngredientCreate.as_view(), name='ingredients_create'),
-    path('ingredients/<int:pk>/update', views.IngredientUpdate.as_view(), name='ingredients_update'),
-    path('ingredients/<int:pk>/delete', views.IngredientDelete.as_view(), name='ingredients_delete'),
+    #CUSTOM INGREDIENTS
+    path('custom_ingredients/', views.CustomIngredientList.as_view(), name='custom_ingredients_index'),
+    path('custom_ingredients/<int:ingredient_id>', views.custom_ingredients_detail, name='ingredient_detail'),
+    path('custom_ingredients/create/', views.CustomIngredientCreate.as_view(), name='custom_ingredients_create'),
+    path('custom_ingredients/<int:pk>/update', views.CustomIngredientUpdate.as_view(), name='custom_ingredients_update'),
+    path('custom_ingredients/<int:pk>/delete', views.CustomIngredientDelete.as_view(), name='custom_ingredients_delete'),
 
 
     #ASSOCIATE INGREDIENT
@@ -48,4 +48,7 @@ urlpatterns = [
 
     # IMAGE FORM
     path('form/', views.image_to_text, name='form'),
+
+    # RECIPE FORM STEP 1
+    path('recipes/step1', views.recipe_ingredients, name='step1'),
 ]
