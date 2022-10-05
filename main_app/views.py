@@ -60,7 +60,9 @@ def addRecipe(request):
 
 def recipes_index(request):
     recipes = Recipe.objects.all()
+    print("recipes_index")
     return render(request, 'recipes/index.html', { 'recipes': recipes})
+
 
 @login_required
 def recipes_detail(request, recipe_id):
@@ -123,7 +125,7 @@ def logout(request):
     if request.method == "POST":
         logout.is_valid()
         messages.success(request, 'You have been logged out succesfully')
-        return redirect('home')
+        return redirect('home.html')
 
 #LOGIN USER MESSAGES (this one works)
 def login(request):
@@ -133,9 +135,11 @@ def login(request):
             messages.success(request, 'You have been logged in')
             return redirect('home')
 
+            # next field; create in html 
+
         else: 
             messages.error(request, 'We have been unable to log you in; please try again')
-            return redirect('home')
+            return render(request, 'registration/login.html', { 'error': 'We have been unable to log you in; please try again' })
 
 # ---------------------------------------------------------------- #
 
