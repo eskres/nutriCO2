@@ -30,7 +30,8 @@ urlpatterns = [
 
     #USER
     path('accounts/signup/', views.signup, name='signup'),
-    path('user/<int:user_id>', views.UserDetail.as_view, name='user_detail'),
+    # path('user/<int:user_id>', views.user_detail, name='user_detail'),
+    path('user/<int:pk>', views.UserDetail.as_view(), name='user_detail'),
     path('user/<int:pk>/update', views.UserUpdate.as_view(), name='user_update'),
     path('user/<int:pk>/delete', views.UserDelete.as_view(), name='user_delete'),
     
