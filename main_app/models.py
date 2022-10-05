@@ -1,4 +1,3 @@
-from curses import COLOR_BLUE
 from datetime import date
 from email.mime import image
 from django.db import models
@@ -14,10 +13,8 @@ class Recipe(models.Model):
     category = models.CharField(max_length=100, default="")
     ingredients = models.CharField(max_length=300, default="")
     method = models.CharField(max_length=300, default="")
-    # need to find default value for portions
-    # portions = models.SmallIntegerField(default="4")
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    # option to make recipe public or keep private?
+
 
     def get_absolute_url(self):
         return reverse('detail', kwargs = {'recipe_id': self.id })
@@ -46,7 +43,6 @@ class CustomIngredient(models.Model):
     name = models.CharField(max_length=100)
     description = models.CharField(max_length=100, default="")
     allergy = models.CharField(max_length=100)
-
     
 
 

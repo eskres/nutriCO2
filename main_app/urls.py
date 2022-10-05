@@ -1,7 +1,7 @@
 
 from django.urls import path
 from . import views
-from .views import nav_view
+from .views import nav_view, image_to_text
 
 urlpatterns = [
     path('', views.home, name='home'),
@@ -9,7 +9,7 @@ urlpatterns = [
 
     #RECIPES
     path('recipes/', views.recipes_index, name='recipes_index'),
-    path('recipes/<int:recipe_id>', views.recipes_detail, name='detail'),
+    path('recipes/<int:recipe_id>', views.recipes_detail, name='recipe_detail'),
     path('recipes/create/', views.RecipeCreate.as_view(), name='recipes_create'),
     path('recipes/<int:pk>/update/', views.RecipeUpdate.as_view(), name='recipes_update'),
     path('recipes/<int:pk>/delete/', views.RecipeDelete.as_view(), name='recipes_delete'),
@@ -28,15 +28,18 @@ urlpatterns = [
     path('recipes/<int:recipe_id>/assoc_ingredient/<int:ingredient_id>', views.unassoc_ingredient, name="unassoc_ingredient"),
 
 
-    #SIGN UP
+    #USER
     path('accounts/signup/', views.signup, name='signup'),
+    path('user/<int:user_id>', views.UserDetail.as_view, name='user_detail'),
+    path('user/<int:pk>/update', views.UserUpdate.as_view(), name='user_update'),
+    path('user/<int:pk>/delete', views.UserDelete.as_view(), name='user_delete'),
+    
     #LOGIN
     path('accounts/login', views.login, name='login'),
 
-    #USER
-    path('user/<int:user_id>', views.user_detail, name='user_detail'),
-
-    # Same
+    # NAV
     path('', nav_view),
 
+    # IMAGE FORM
+    path('form/', views.image_to_text, name='form'),
 ]

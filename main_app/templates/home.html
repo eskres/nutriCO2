@@ -1,12 +1,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
 <div id="fullpage">
 
-    <div class="section active" id="section1" id="ease">
+
+    <div class="section active" id="section1">
         <div class="nav">
             {% include 'nav.html' %}
+            
         </div>
         <div class="fp-bg"></div>
         <h3>Upload your recipes to 
@@ -19,8 +20,7 @@
         <h1>Food info</h1>
         <h3>Digitise your recipes;
             <br>upload photos and save
-            <br>the images as text.
-        </h3>
+            <br>the images as text.</h3>
     </div>
 
     <div class="section" id="section3">
@@ -35,17 +35,8 @@
      <div class="section" id="section4">
         <div class="fp-bg"></div>
         <h1>Sign up</h1>
+        <a href="{% url 'signup' %}">Sign Up</a>
 
-        {% if error_message %}
-        <p class="red-text"> {{ error_message }}</p>
-        {% endif %}
-
-        <p>WANT FULL SIGN UP FORM HERE AND WANT 'SIGN' UP BOTTON IN NAV TO LINK HERE - ASK SAAD</p>
-        <form action="{% url 'signup' %}" method="POST">
-            {% csrf_token %}
-            {{ form.as_p}}
-            <input type="submit" value="Signup" class="btn"/>
-        </form>
 
     </div>
     <footer>
