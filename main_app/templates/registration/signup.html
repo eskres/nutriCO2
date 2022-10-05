@@ -3,18 +3,20 @@
 {% block content %}
 {% include 'nav.html' %}
 
-<h1>Sign Up</h1>
+<div class="container">
+    <h1>Sign Up</h1>
+        {% if error_message %}
+            <p class="red-text"> {{ error_message }}</p>
+        {% endif %}
+</div>
+<div class="container">
+    <form action="{% url 'signup' %}" method="POST">
+        {% csrf_token %}
+        {{ form.as_p}}
+        <input type="submit" value="Signup" class="btn btn-primary"/>
+    </form>
+</div>
 
-{% if error_message %}
-<p class="red-text"> {{ error_message }}</p>
-{% endif %}
-
-
-<form action="{% url 'signup' %}" method="POST">
-    {% csrf_token %}
-    {{ form.as_p}}
-    <input type="submit" value="Signup" class="btn"/>
-</form>
 
 {% endblock %}
 
@@ -24,5 +26,4 @@
     <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
     {% endfor %}
 </ul>
-
 {% endif %}

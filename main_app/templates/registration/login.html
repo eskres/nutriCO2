@@ -3,15 +3,18 @@
 {% block content %}
 {% include 'nav.html' %}
 
-<h1>Log In</h1>
-
-<form action="{% url 'login' %}" method="post">
-    {% csrf_token %}
-
-    {{ form.as_p }}
-
-    <input type="submit" class="btn" value="Login"/>
-
-</form>
+<div class="container">
+    <h1>Log In</h1>
+</div>
+<div class="container">
+    <form action="{% url 'login' %}" method="post">
+        {% csrf_token %}
+    
+        {{ form.as_p }}
+    
+        <input type="submit" class="btn btn-primary" value="Login"/>
+    
+    </form>
+</div>
 
 {% endblock %}
