@@ -30,13 +30,18 @@ urlpatterns = [
 
     #USER
     path('accounts/signup/', views.signup, name='signup'),
-    # path('user/<int:user_id>', views.user_detail, name='user_detail'),
     path('user/<int:pk>', views.UserDetail.as_view(), name='user_detail'),
     path('user/<int:pk>/update', views.UserUpdate.as_view(), name='user_update'),
     path('user/<int:pk>/delete', views.UserDelete.as_view(), name='user_delete'),
+    # path("password_change", views.password_change, name="password_change"),
+
+    # path('recipes/<int:pk>/update/', views.RecipeUpdate.as_view(), name='recipe_update'),
+    # path('recipes/<int:pk>/delete/', views.RecipeDelete.as_view(), name='recipe_delete'),
     
     #LOGIN
-    path('accounts/login', views.login, name='login'),
+    path('accounts/login', views.log_in, name='log_in'),
+    path('accounts/logout', views.logout,name='logout'),
+
 
     # NAV
     path('', nav_view),

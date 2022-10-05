@@ -16,6 +16,8 @@ from django.utils.encoding import smart_bytes
 import json
 from django.contrib import messages
 from django.contrib.auth.models import User
+# from django.contrib.auth.forms import SetPasswordForm
+
 
 # Create your views here.
 
@@ -119,7 +121,7 @@ def signup(request):
 
         if form.is_valid():
             user = form.save()
-            login(request, user)
+            login(request,user)
             messages.success(request, 'Your registration was successful')
             return redirect('/')
     
@@ -140,10 +142,10 @@ def logout(request):
         return render (request, 'home.html', {'successs': 'You have been logged out succesfully'})
 
 #LOGIN USER MESSAGES (this one works)
-def login(request):
+def log_in(request):
     if request.method == "POST":
 
-        if login.is_valid():
+        if log_in.is_valid():
             messages.success(request, 'You have been logged in')
             return render(request,'home,html', {'success': 'You have been logged in'})
 
@@ -152,6 +154,23 @@ def login(request):
         else: 
             messages.error(request, 'We have been unable to log you in; please try again')
             return render(request, 'registration/login.html', { 'error': 'We have been unable to log you in; please try again'})
+
+
+@login_required
+def password_change(request):
+    user = request.user
+    if request.method == 'POST':
+        form = SetPasswordForm(user, request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Your password has been changed")
+            return redirect('login')
+        else:
+            for error in list(form.errors.values()):
+                messages.error(request, error)
+
+    form = SetPasswordForm(user)
+    return render(request, 'password_reset_confirm.html', {'form': form})
 
 # ---------------------------------------------------------------- #
 
