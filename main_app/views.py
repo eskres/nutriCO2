@@ -22,7 +22,11 @@ from django.contrib import messages
 #RECIPES CRUD
 class RecipeCreate(LoginRequiredMixin, CreateView):
     model = Recipe
-    fields = ['name', 'upload_image_of_ingredients', 'description', 'category', 'ingredients', 'method']
+    fields = ['name', 'upload_image_of_ingredients', 'description', 'category', 'ingredients', 'method', 'user']
+
+    # def form_valid(self, form):
+    #     form.instance.user = self.request.user
+    #     return super().form_valid(form)
 
 class RecipeUpdate(LoginRequiredMixin, UpdateView):
     model = Recipe
@@ -46,7 +50,7 @@ def addRecipe(request):
         form = RecipeCreate(request.POST)
 
         if form.is_valid():
-            user = form.save()
+            # user = form.save()
             messages.success(request, 'recipe added')
             return redirect('recipes/index.html')
 
@@ -65,9 +69,9 @@ def recipes_index(request):
 
 
 @login_required
-def recipes_detail(request, recipe_id):
+def recipe_detail(request, recipe_id):
     recipe = Recipe.objects.get(id=recipe_id)
-    return render(request, 'recipes/detail.html'),
+    return render(request, 'recipes/detail.html', { 'recipe': recipe})
 
 
 #INGREDIENTS CRUD

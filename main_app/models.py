@@ -14,10 +14,11 @@ class Recipe(models.Model):
     ingredients = models.CharField(max_length=300, default="")
     method = models.CharField(max_length=300, default="")
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    # user id? 
 
 
     def get_absolute_url(self):
-        return reverse('detail', kwargs = {'recipe_id': self.id })
+        return reverse('recipe_detail', kwargs = {'recipe_id': self.id })
 
     def __str__(self):
         return self.name
