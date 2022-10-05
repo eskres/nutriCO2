@@ -8,6 +8,7 @@ from django.contrib.auth.models import User
 
 class Recipe(models.Model):
     name = models.CharField(max_length=100)
+    image = models.ImageField(upload_to = 'main_app/static/uploads/', default="")
     upload_image_of_ingredients = models.ImageField(upload_to = 'main_app/static/uploads/', default="")
     description = models.CharField(max_length=100)
     category = models.CharField(max_length=100, default="")

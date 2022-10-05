@@ -8,16 +8,14 @@
 
 
     <p>{{ user.image }}<p></p>
-    <p>Email: {{ user.email }} </p>
 
 
-    <button>Edit</button>
-    <button>Delete</button>
+    <div class="card-action">
+        <a href="{% url 'user_update' user.id %}">Edit</a>
+        <a href="{% url 'user_delete' user.id %}">Delete</a>
+     </div>
 
 
 
-
-
-    
 
 {% endblock %}
