@@ -12,10 +12,9 @@
 
     <div class="card-action">
         <a href="{% url 'user_update' user.id %}">Edit</a>
-        <a href="{% url 'user_delete' user.id %}">Delete</a>
-     </div>
-
-
+        <a href="{% url 'user_delete' user.id %}">Delete Profile</a>
+        <a href="{% url 'password_change' %}">Change password?
+    </div>
 
 
 {% endblock %}
