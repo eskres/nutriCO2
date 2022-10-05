@@ -22,21 +22,7 @@ from django.contrib import messages
 #RECIPES CRUD
 class RecipeCreate(LoginRequiredMixin, CreateView):
     model = Recipe
-    fields = '__all__'
-
-    # def recipe_form(self, request):
-    #     if request.method == "POST":
-    #         form = recipe_form(request.POST)
-    #         if form.is_valid():
-    #             form.save()
-    #             messages.success(request, 'Recipe added succesfully.')
-    #             return render(request, 'recipes/index.html', { 'recipes': recipe})
-
-    #         else:
-    #             messages.error(request, 'Invalid form; please try again')
-    #             return render(request, 'home.html')
-            
-                             
+    fields = ['name', 'upload_image_of_ingredients', 'description', 'category', 'ingredients', 'method']
 
 class RecipeUpdate(LoginRequiredMixin, UpdateView):
     model = Recipe
@@ -46,16 +32,37 @@ class RecipeDelete(LoginRequiredMixin, DeleteView):
     model = Recipe
     success_url = '/recipes/'
 
-
 def home(request):
     return render(request, 'home.html')
 
 def about(request):
     return render(request, 'about.html')
 
+# ---------------------------------------------------------------- #
+#ADD RECIPE USER MESSAGES
+@login_required
+def addRecipe(request):
+    if request.method == "POST":
+        form = RecipeCreate(request.POST)
+
+        if form.is_valid():
+            user = form.save()
+            messages.success(request, 'recipe added')
+            return redirect('recipes/index.html')
+
+        else:
+            messages.error(request, 'The recipe was not saved, please try again later')
+            return redirect('') 
+
+    form = RecipeCreate()
+    context = {'form': form}
+    return render(request, 'recipes/index.html', context)
+
 def recipes_index(request):
     recipes = Recipe.objects.all()
+    print("recipes_index")
     return render(request, 'recipes/index.html', { 'recipes': recipes})
+
 
 @login_required
 def recipes_detail(request, recipe_id):
@@ -92,6 +99,7 @@ def ingredients_detail(request, ingredient_id):
     ingredient = Ingredient.objects.get(id=ingredient_id)
     return render(request, 'ingredients/detail.html', { 'ingredients': ingredient})
 
+#SIGN UP USER MESSAGES
 def signup(request):
     error_message =""
     if request.method == "POST":
@@ -103,16 +111,37 @@ def signup(request):
             messages.success(request, 'Your registration was successful')
             return redirect('/')
     
-            
         else:
-            messages.error(request, 'Your registration was unsuccessful; please try again later')
+            messages.error(request, 'Your registration was unsuccessful; please try again')
             return redirect('/')  
-
-
 
     form = UserCreationForm()
     context = {'form': form, 'error_message': error_message}
     return render(request, 'registration/signup.html', context)
+
+#LOGOUT USER MESSAGES
+@login_required
+def logout(request):
+    if request.method == "POST":
+        logout.is_valid()
+        messages.success(request, 'You have been logged out succesfully')
+        return redirect('home.html')
+
+#LOGIN USER MESSAGES (this one works)
+def login(request):
+    if request.method == "POST":
+
+        if login.is_valid():
+            messages.success(request, 'You have been logged in')
+            return redirect('home')
+
+            # next field; create in html 
+
+        else: 
+            messages.error(request, 'We have been unable to log you in; please try again')
+            return render(request, 'registration/login.html', { 'error': 'We have been unable to log you in; please try again' })
+
+# ---------------------------------------------------------------- #
 
 #ASSOCIATE AND UNASSOCIATE INGREDIENTS WITH RECIPES
 
@@ -133,12 +162,15 @@ def user_detail(request, user_id):
     user = User.objects.get(id=user_id)
     return render(request, 'user/detail.html', { 'user': user})
 
+def user_profile(request, user_id):
+    user = User.objects.get(id=user_id)
+    return render(request, 'user/profile.html', { 'user': user})
 
 
 #USER CRUD
 class UserDetail(LoginRequiredMixin, DetailView):
     model = User
-    fields = '__all__'
+    fields = ['name']
 
 class UserCreate(LoginRequiredMixin, CreateView):
     model = User
@@ -146,13 +178,13 @@ class UserCreate(LoginRequiredMixin, CreateView):
 
 class UserUpdate(LoginRequiredMixin, UpdateView):
     model = User
-    fields = '__all__'
+    fields = ['name']
 
 class UserDelete(LoginRequiredMixin, DeleteView):
     model = User
     success_url = '/'
 
-
+#IMAGE TO TEXT API (100% Einar's work))
 def image_to_text(request):
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
@@ -195,19 +227,4 @@ def image_to_text(request):
 
     # os.getenv('APIKEY')
 
-
-# FLASH MESSAGE FOR LOGOUT
-# @require_http_methods(["GET", "POST"])
-# @login_required(login_url='/login', redirect_field_name='')
-# def do_logout(request):
-#     assert isinstance(request, HttpRequest)
-
-#     messages.add_message(request, messages.INFO, '{0} logged out.'.format(request.user))
-#     logout(request)
-#     return redirect('home')
-
-
-
-
-
-
+ 
