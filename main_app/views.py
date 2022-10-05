@@ -197,7 +197,6 @@ def image_to_text(request):
         # check whether it's valid:
         if form.is_valid():
             print('valid')
-            
             result = {"lang": "en", "all_text": "2 tbsp extra-virgin olive oil,\nplus extra for drizzling\n300g sweet potato\n(unpeeled), cut into\n1cm cubes\n50g spring onions, trimmed\nand finely chopped\n4 eggs\n1 tsp dried thyme\n1 tsp dried oregano\n1 tsp sweet paprika\n\u00bd tsp cayenne pepper,\nplus extra to serve\n\u00bd tsp ground black pepper\n100g curly kale, stems\nremoved and leaves\nroughly chopped\n100g sweetcorn kernels\n(fresh, frozen or tinned)\n25g sunflower seeds, toasted\nand lightly crushed\nsea salt and freshly\nground black pepper\n\u314f\na\nM\nt\nF", "annotations": ["2", "tbsp", "extra", "-", "virgin", "olive", "oil", ",", "plus", "extra", "for", "drizzling", "300g", "sweet", "potato", "(", "unpeeled", ")", ",", "cut", "into", "1cm", "cubes", "50g", "spring", "onions", ",", "trimmed", "and", "finely", "chopped", "4", "eggs", "1", "tsp", "dried", "thyme", "1", "tsp", "dried", "oregano", "1", "tsp", "sweet", "paprika", "\u00bd", "tsp", "cayenne", "pepper", ",", "plus", "extra", "to", "serve", "\u00bd", "tsp", "ground", "black", "pepper", "100g", "curly", "kale", ",", "stems", "removed", "and", "leaves", "roughly", "chopped", "100g", "sweetcorn", "kernels", "(", "fresh", ",", "frozen", "or", "tinned", ")", "25g", "sunflower", "seeds", ",", "toasted", "and", "lightly", "crushed", "sea", "salt", "and", "freshly", "ground", "black", "pepper", "\u314f", "a", "M", "t", "F"]}
 
             # request.encoding = 'utf-8'
@@ -208,7 +207,7 @@ def image_to_text(request):
 
             # payload = smart_bytes(receipt_image, encoding="utf-8", strings_only=False, errors="strict")
             # headers= {
-            # "apikey": "OEgEEQl78jXRGAnGHnEugqPQWgMRU9C9"
+            # "apikey": os.getenv('APIKEY')
             # }
 
             # response = requests.request("POST", url, headers=headers, data=payload)
@@ -229,6 +228,32 @@ def image_to_text(request):
         form = ImageTextForm()
     return render(request, 'main_app/image_to_text.html', {'form': form})
 
-    # os.getenv('APIKEY')
 
- 
+def calculate_nutrition(request):
+    # if this is a POST request we need to process the form data
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = ImageTextForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            print('valid')
+
+            url = "https://api.spoonacular.com/recipes/analyze"
+
+            # Prepare payload here as JSON object
+            recipe = ""
+
+            headers= {
+            "apikey": os.getenv('SPOONACULAR')
+            }
+
+            response = requests.request("POST", url, headers=headers, params=recipe)
+
+            print(response)
+
+            # # # # MANIPULATE RESPONSE HERE
+            # return redirect('/')
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        print('not valid')
+        return redirect('recipes/create/')
