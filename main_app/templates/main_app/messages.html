@@ -1,7 +1,3 @@
-{% extends 'base.html' %}
-
-{% block content %}
-
 {% for message in messages %}
     <div class="alert {{ message.tags }} alert-dismissible shadow fade show" role="alert">
         <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close">
@@ -10,10 +6,3 @@
         {{ message | safe }}
     </div>
 {% endfor %}
-
-{% endblock %}
-
-
-
-
-
