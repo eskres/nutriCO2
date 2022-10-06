@@ -39,7 +39,12 @@ class RecipeCreate(LoginRequiredMixin, CreateView):
 
 class RecipeUpdate(LoginRequiredMixin, UpdateView):
     model = Recipe
-    fields = '__all__'
+    fields = ['name', 'image', 'upload_image_of_ingredients', 'description', 'category', 'custom_ingredients', 'ingredients', 'method', 'public']
+
+        # def __init__(self, *args, **kwargs):
+        #     super(Recipe, self).__init__(*args, **kwargs)
+        #     for key in self.fields:
+        #         self.fields[key].required = False
 
 class RecipeDelete(LoginRequiredMixin, DeleteView):
     model = Recipe
