@@ -34,6 +34,7 @@ urlpatterns = [
 
 
     #USER
+    path('register/', views.register_request, name='register'),
     path('signup/', SignUpView.as_view(), name='signup'),
     path('user/<int:pk>', views.UserDetail.as_view(), name='user_detail'),
     path('user/<int:pk>/update', views.UserUpdate.as_view(), name='user_update'),

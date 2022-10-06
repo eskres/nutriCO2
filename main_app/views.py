@@ -21,10 +21,25 @@ from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.urls import reverse_lazy
 from django.views import generic
 from django import forms  
+from .forms import NewUserForm
 
 
 
 # Create your views here.
+
+def register_request(request):
+	if request.method == "POST":
+		form = NewUserForm(request.POST)
+        
+		if form.is_valid():
+			user = form.save()
+			login(request, user)
+			messages.success(request, "Registration successful." )
+			return redirect("/")
+
+	messages.error(request, "Unsuccessful registration. Invalid information.")
+	form = NewUserForm()
+	return render (request=request, template_name="registration/register.html", context={"register_form":form})
 
 class SignUpView(generic.CreateView):
     form_class = UserCreationForm
@@ -36,12 +51,12 @@ class SignUpView(generic.CreateView):
         model = User  
         fields = ('username', 'email', 'password1', 'password2') 
 
-# class SignupView(UserCreationForm):  
-#     email = forms.EmailField(max_length=200, help_text='Required')  
+class SignupView(UserCreationForm):  
+    email = forms.EmailField(max_length=200, help_text='Required')  
     
-#     class Meta:  
-#         model = User  
-#         fields = ('username', 'email', 'password1', 'password2')  
+    class Meta:  
+        model = User  
+        fields = ('username', 'email', 'password1', 'password2')  
 
 class PasswordChange(generic.CreateView):
     form_class = UserCreationForm
