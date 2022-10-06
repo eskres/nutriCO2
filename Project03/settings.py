@@ -91,11 +91,21 @@ WSGI_APPLICATION = 'Project03.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': '',
-        'USER': '',
-        'PASSWORD' : ''
+        'NAME': os.getenv('DATABASENAME'),
+        'USER': os.getenv('DATABASEUSER'),
+        'PASSWORD' : os.getenv('DATABASEPASSWORD'),
     }
 }
+
+# HEROKU
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': '',
+#         'USER': '',
+#         'PASSWORD' : ''
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
