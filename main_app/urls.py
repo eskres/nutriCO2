@@ -32,11 +32,11 @@ urlpatterns = [
 
 
     #USER
-    path('signup/', SignUpView.as_view(), name="signup"),
+    path('signup/', SignUpView.as_view(), name='signup'),
     path('user/<int:pk>', views.UserDetail.as_view(), name='user_detail'),
     path('user/<int:pk>/update', views.UserUpdate.as_view(), name='user_update'),
     path('user/<int:pk>/delete', views.UserDelete.as_view(), name='user_delete'),
-    # path("password_change", views.password_change, name="password_change"),
+    # path("password_reset/", views.PasswordReset.as_view(), name="password_reset"),
 
     # path('recipes/<int:pk>/update/', views.RecipeUpdate.as_view(), name='recipe_update'),
     # path('recipes/<int:pk>/delete/', views.RecipeDelete.as_view(), name='recipe_delete'),

@@ -25,6 +25,11 @@ from django.views import generic
 
 # Create your views here.
 
+class SignUpView(generic.CreateView):
+    form_class = UserCreationForm
+    success_url = reverse_lazy("login")
+    template_name = "registration/signup.html"
+
 #RECIPES CRUD
 class RecipeCreate(LoginRequiredMixin, CreateView):
     model = Recipe
@@ -320,8 +325,23 @@ def recipe_ingredients(request):
 
 
 
-# for auth
-class SignUpView(generic.CreateView):
-    form_class = UserCreationForm
-    success_url = reverse_lazy("login")
-    template_name = "registration/signup.html"
+
+# ! OLD SIGN UP METHOD
+#SIGN UP USER MESSAGES
+# def signup(request):
+#     error_message =""
+#     if request.method == "POST":
+#         form = UserCreationForm(request.POST)
+
+#         if form.is_valid():
+#             user = form.save()
+#             login(request,user)
+#             messages.success(request, 'Your registration was successful')
+#             return redirect('/')
+#         else:
+#             messages.error(request, 'Your registration was unsuccessful; please try again')
+#             return redirect('/')  
+
+#     form = UserCreationForm()
+#     context = {'form': form, 'error_message': error_message}
+#     return render(request, 'registration/signup.html', context)
