@@ -16,7 +16,9 @@ from django.utils.encoding import smart_bytes
 import json
 from django.contrib import messages
 from django.contrib.auth.models import User
-# from django.contrib.auth.forms import SetPasswordForm
+from django.contrib.auth.forms import SetPasswordForm
+from django.contrib.auth.mixins import PermissionRequiredMixin
+
 
 
 # Create your views here.
@@ -200,10 +202,12 @@ class UserCreate(LoginRequiredMixin, CreateView):
 
 class UserUpdate(LoginRequiredMixin, UpdateView):
     model = User
-    fields = ['name']
+    template_name='user/update.html'
+    fields = '__all__'
 
 class UserDelete(LoginRequiredMixin, DeleteView):
     model = User
+    template_name='user/user_confirm_delete.html'
     success_url = '/'
 
 #USER DETAILS

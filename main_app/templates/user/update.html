@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% include 'nav.html' %}
+
+    <h1>{{ user.name }} Edit User</h1>
+    <!-- EDIT, DELETE, CHANGE PASSWORD  ETC ETC -->
+
+
+    <p>{{ user.image }}<p></p>
+
+
+    <div class="card-action">
+        <a href="">Save Changes</a><br>
+        <a href="{% url 'user_delete' user.id %}">Delete Profile</a><br>
+        <a href="{% url 'password_change' %}">Change password</a>
+    </div>
+
+
+{% endblock %}
