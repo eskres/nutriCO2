@@ -1,20 +1,35 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} {% block content %} {% include 'nav.html' %}
 
-{% block content %}
-{% include 'nav.html' %}
+<h1>{{ user.name }} Edit User</h1>
+<!-- EDIT, DELETE, CHANGE PASSWORD  ETC ETC -->
 
-    <h1>{{ user.name }} Edit User</h1>
-    <!-- EDIT, DELETE, CHANGE PASSWORD  ETC ETC -->
+<p>{{ user.image }}</p>
+<p></p>
 
+<div class="card-action">
+  <a href="">
+    <input type="submit" value="Save Changes" class="btn btn-primary" />
+  </a>
+  <br />
+  <br />
+  <a href="{% url 'user_delete' user.id %}">
+    <input type="submit" value="Delete Profile" class="btn btn-primary" />
+  </a>
+  <br />
+  <br />
+  <a href="{% url 'password_change' %}">
+    <input type="submit" value="Change Password" class="btn btn-primary" />
+  </a>
+  <br />
+  <br />
 
-    <p>{{ user.image }}<p></p>
-
-
-    <div class="card-action">
-        <a href="">Save Changes</a><br>
-        <a href="{% url 'user_delete' user.id %}">Delete Profile</a><br>
-        <a href="{% url 'password_change' %}">Change password</a>
-    </div>
-
+  <a href="{% url 'password_reset' %}">
+    <input
+      type="submit"
+      value="Change Password via email"
+      class="btn btn-primary"
+  /></a>
+  ...under construction
+</div>
 
 {% endblock %}

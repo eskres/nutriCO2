@@ -2,13 +2,16 @@
 
 {% block content %}
 {% include 'nav.html' %}
-
+<br>
 <h4>Are you sure you want to delete your profile?</h4>
 
 <form action="" method="post">
     {%csrf_token %}
-    <input type="submit" value="Yes - Delete" class="btn">
-    <a href="{% url 'user_detail' user.id %}">No - Cancel</a>
+    <input type="submit" value="Yes - Delete" class="btn btn-primary">
+
+    <a href="{% url 'user_detail' user.id %}">
+    <input type="" value="No - Cancel" class="btn btn-primary">
+    </a>
 </form>
 
 {% endblock %}

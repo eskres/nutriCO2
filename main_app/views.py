@@ -18,9 +18,10 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import SetPasswordForm
 from django.contrib.auth.mixins import PermissionRequiredMixin
-from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views import generic
+from django import forms  
+
 
 
 # Create your views here.
@@ -28,7 +29,29 @@ from django.views import generic
 class SignUpView(generic.CreateView):
     form_class = UserCreationForm
     success_url = reverse_lazy("login")
-    template_name = "registration/signup.html"
+    email = forms.EmailField(max_length=200, help_text='Required')  
+    template_name = "registration/signup.html" 
+
+    class Meta:  
+        model = User  
+        fields = ('username', 'email', 'password1', 'password2') 
+
+# class SignupView(UserCreationForm):  
+#     email = forms.EmailField(max_length=200, help_text='Required')  
+    
+#     class Meta:  
+#         model = User  
+#         fields = ('username', 'email', 'password1', 'password2')  
+
+class PasswordChange(generic.CreateView):
+    form_class = UserCreationForm
+    success_url = reverse_lazy("login")
+    template_name = "registration/password_change.html"
+
+class PasswordReset(generic.CreateView):
+    form_class = UserCreationForm
+    success_url = reverse_lazy("login")
+    template_name = "registration/password_reset.html"
 
 #RECIPES CRUD
 class RecipeCreate(LoginRequiredMixin, CreateView):
@@ -66,6 +89,7 @@ def about(request):
 
 # ---------------------------------------------------------------- #
 #ADD RECIPE USER MESSAGES
+
 @login_required
 def addRecipe(request):
     if request.method == "POST":
@@ -164,21 +188,21 @@ def log_in(request):
             return render(request, 'registration/login.html', { 'error': 'We have been unable to log you in; please try again'})
 
 
-@login_required
-def password_change(request):
-    user = request.user
-    if request.method == 'POST':
-        form = SetPasswordForm(user, request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Your password has been changed")
-            return redirect('login')
-        else:
-            for error in list(form.errors.values()):
-                messages.error(request, error)
+# @login_required
+# def password_change(request):
+#     user = request.user
+#     if request.method == 'POST':
+#         form = SetPasswordForm(user, request.POST)
+#         if form.is_valid():
+#             form.save()
+#             messages.success(request, "Your password has been changed")
+#             return redirect('login')
+#         else:
+#             for error in list(form.errors.values()):
+#                 messages.error(request, error)
 
-    form = SetPasswordForm(user)
-    return render(request, 'password_reset_confirm.html', {'form': form})
+#     form = SetPasswordForm(user)
+#     return render(request, 'password_reset_confirm.html', {'form': form})
 
 # ---------------------------------------------------------------- #
 

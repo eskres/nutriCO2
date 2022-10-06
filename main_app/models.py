@@ -4,6 +4,7 @@ from email.policy import default
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
+from django import forms  
 
 # Create your models here.
 # USER SPECIFIC INGREDIENTS
@@ -66,5 +67,5 @@ class IngredientQuantity(models.Model):
 
 class User(models.Model):
     name = models.CharField(max_length=100)
-    email = models.CharField(max_length=100)
+    email = forms.EmailField(max_length=200, help_text='Required')  
     image = models.ImageField(upload_to = 'main_app/static/uploads/', default="")
