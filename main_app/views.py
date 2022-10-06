@@ -33,11 +33,17 @@ class SignUpView(generic.CreateView):
 #RECIPES CRUD
 class RecipeCreate(LoginRequiredMixin, CreateView):
     model = Recipe
-    fields = ['name', 'image', 'upload_image_of_ingredients', 'description', 'category', 'custom_ingredients', 'method', 'user']
+    fields = ['name', 'image', 'description']
 
-    # def form_valid(self, form):
-    #     form.instance.user = self.request.user
-    #     return super().form_valid(form)
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        if form.is_valid():
+            messages.success(self.request, 'recipe added')
+            return render(self.request,'recipes/index.html', {'success': 'recipe added'})
+            # return super().form_valid(form)
+        else:
+            messages.error(self.request, 'The recipe was not saved, please try again.')
+            return render(self.request, 'recipes/create.html', { 'error': 'The recipe was not saved, please try again.'})
 
 class RecipeUpdate(LoginRequiredMixin, UpdateView):
     model = Recipe
@@ -60,15 +66,6 @@ def addRecipe(request):
     if request.method == "POST":
         form = RecipeCreate(request.POST)
 
-        if form.is_valid():
-            messages.success(request, 'recipe added')
-            return render(request,'recipes/index.html', {'success': 'recipe added'})
-
-        else:
-            messages.error(request, 'The recipe was not saved, please try again.')
-            return render(request, 'recipes/create.html', { 'error': 'The recipe was not saved, please try again.'}) 
-
-    
     form = RecipeCreate()
     context = {'form': form}
     return render(request, 'recipes/index.html', context)
@@ -90,41 +87,33 @@ def recipe_delete(request, recipe_id):
     return render(request, 'recipes/index.html', { 'success': 'Recipe deleted'})
 
 
-
-
-# CUSTOM INGREDIENTS CLASS VIEWS
-class CustomIngredientList(LoginRequiredMixin, ListView):
-    model = CustomIngredient
-    template_name='custom_ingredients/list.html'
-
-
-class CustomIngredientDetail(LoginRequiredMixin, DetailView):
-    model = CustomIngredient
-    template_name='custom_ingredients/detail.html'
-
-
 class CustomIngredientCreate(LoginRequiredMixin, CreateView):
     model = CustomIngredient
-    fields = '__all__'
+    fields = ['name', 'description', 'co2e']
     template_name='custom_ingredients/form.html'
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
 
 class CustomIngredientUpdate(LoginRequiredMixin, UpdateView):
     model = CustomIngredient
-    fields = '__all__'
+    fields = ['name', 'description', 'co2e']
+    template_name='custom_ingredients/form.html'
 
 class CustomIngredientDelete(LoginRequiredMixin, DeleteView):
     model = CustomIngredient
+    template_name='custom_ingredients/confirm_delete.html'
     success_url = '/custom_ingredients/'
 
 # CUSTOM INGREDIENTS VIEWS
 def custom_ingredients_index(request):
     custom_ingredients = CustomIngredient.objects.all()
-    return render(request, 'custom_ingredients/index.html', { 'ingredients': custom_ingredients})
+    return render(request, 'custom_ingredients/index.html', { 'custom_ingredients': custom_ingredients})
 
-def custom_ingredients_detail(request, custom_ingredient_id):
+def custom_ingredient_detail(request, custom_ingredient_id):
     custom_ingredient = CustomIngredient.objects.get(id=custom_ingredient_id)
-    return render(request, 'custom_ingredients/detail.html', { 'custom_ingredients': custom_ingredient})
+    return render(request, 'custom_ingredients/detail.html', { 'custom_ingredient': custom_ingredient})
 
 # ! OLD SIGN UP METHOD
 #SIGN UP USER MESSAGES
