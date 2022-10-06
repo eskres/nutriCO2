@@ -1,7 +1,7 @@
 from unicodedata import name
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .models import Recipe, Ingredient, User
+from .models import Recipe, CustomIngredient, Ingredient, User
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView
 from django.contrib.auth.forms import UserCreationForm
@@ -9,7 +9,7 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.template import loader
-from .forms import ImageTextForm
+from .forms import ImageTextForm, RecipeIngredients
 import os
 import requests
 from django.utils.encoding import smart_bytes
@@ -20,14 +20,12 @@ from django.contrib.auth.forms import SetPasswordForm
 from django.contrib.auth.mixins import PermissionRequiredMixin
 
 
-
 # Create your views here.
-
 
 #RECIPES CRUD
 class RecipeCreate(LoginRequiredMixin, CreateView):
     model = Recipe
-    fields = ['name', 'image', 'upload_image_of_ingredients', 'description', 'category', 'ingredients', 'method', 'user']
+    fields = ['name', 'image', 'upload_image_of_ingredients', 'description', 'category', 'custom_ingredients', 'method', 'user']
 
     # def form_valid(self, form):
     #     form.instance.user = self.request.user
@@ -86,34 +84,39 @@ def recipe_delete(request, recipe_id):
 
 
 
-#INGREDIENTS CRUD
+# CUSTOM INGREDIENTS CLASS VIEWS
+class CustomIngredientList(LoginRequiredMixin, ListView):
+    model = CustomIngredient
+    template_name='custom_ingredients/list.html'
 
-class IngredientList(LoginRequiredMixin, ListView):
-    model = Ingredient
 
-class IngredientDetail(LoginRequiredMixin, DetailView):
-    model = Ingredient
+class CustomIngredientDetail(LoginRequiredMixin, DetailView):
+    model = CustomIngredient
+    template_name='custom_ingredients/detail.html'
 
-class IngredientCreate(LoginRequiredMixin, CreateView):
-    model = Ingredient
+
+class CustomIngredientCreate(LoginRequiredMixin, CreateView):
+    model = CustomIngredient
+    fields = '__all__'
+    template_name='custom_ingredients/form.html'
+
+
+class CustomIngredientUpdate(LoginRequiredMixin, UpdateView):
+    model = CustomIngredient
     fields = '__all__'
 
-class IngredientUpdate(LoginRequiredMixin, UpdateView):
-    model = Ingredient
-    fields = '__all__'
+class CustomIngredientDelete(LoginRequiredMixin, DeleteView):
+    model = CustomIngredient
+    success_url = '/custom_ingredients/'
 
-class IngredientDelete(LoginRequiredMixin, DeleteView):
-    model = Ingredient
-    success_url = '/ingredients/'
+# CUSTOM INGREDIENTS VIEWS
+def custom_ingredients_index(request):
+    custom_ingredients = CustomIngredient.objects.all()
+    return render(request, 'custom_ingredients/index.html', { 'ingredients': custom_ingredients})
 
-
-def ingredients_index(request):
-    ingredients = Ingredient.objects.all()
-    return render(request, 'ingredients/index.html', { 'ingredients': ingredients})
-
-def ingredients_detail(request, ingredient_id):
-    ingredient = Ingredient.objects.get(id=ingredient_id)
-    return render(request, 'ingredients/detail.html', { 'ingredients': ingredient})
+def custom_ingredients_detail(request, custom_ingredient_id):
+    custom_ingredient = CustomIngredient.objects.get(id=custom_ingredient_id)
+    return render(request, 'custom_ingredients/detail.html', { 'custom_ingredients': custom_ingredient})
 
 #SIGN UP USER MESSAGES
 def signup(request):
@@ -256,9 +259,10 @@ def image_to_text(request):
             # print(resultJSON)
             return render(request, 'main_app/image_to_text.html', {'form': form, 'result': resultJSON})
             # return redirect('/')
+        else:
+            print('not valid')
     # if a GET (or any other method) we'll create a blank form
     else:
-        print('not valid')
         form = ImageTextForm()
     return render(request, 'main_app/image_to_text.html', {'form': form})
 
@@ -287,7 +291,25 @@ def calculate_nutrition(request):
 
             # # # # MANIPULATE RESPONSE HERE
             # return redirect('/')
+        else:
+            print('not valid')
     # if a GET (or any other method) we'll create a blank form
     else:
-        print('not valid')
         return redirect('recipes/create/')
+
+@login_required
+def recipe_ingredients(request):
+    if request.method == 'POST':
+        form = RecipeIngredients(request.POST)
+        print('not valid')
+        if form.is_valid():
+            print('valid')
+            # new_feeding = form.save(commit=False)
+            # new_feeding.cat_id = cat_id
+            # new_feeding.save()
+            return redirect('/')
+        else:
+            print('not valid')
+    else:
+        form = RecipeIngredients(request.POST)
+        return render(request, 'recipes/step1.html', {'form': form})
