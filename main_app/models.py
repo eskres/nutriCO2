@@ -1,7 +1,6 @@
 from datetime import date
 from email.mime import image
 from email.policy import default
-from typing_extensions import Required
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User

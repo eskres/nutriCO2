@@ -18,6 +18,9 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import SetPasswordForm
 from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.contrib.auth.forms import UserCreationForm
+from django.urls import reverse_lazy
+from django.views import generic
 
 
 # Create your views here.
@@ -118,25 +121,26 @@ def custom_ingredients_detail(request, custom_ingredient_id):
     custom_ingredient = CustomIngredient.objects.get(id=custom_ingredient_id)
     return render(request, 'custom_ingredients/detail.html', { 'custom_ingredients': custom_ingredient})
 
+# ! OLD SIGN UP METHOD
 #SIGN UP USER MESSAGES
-def signup(request):
-    error_message =""
-    if request.method == "POST":
-        form = UserCreationForm(request.POST)
+# def signup(request):
+#     error_message =""
+#     if request.method == "POST":
+#         form = UserCreationForm(request.POST)
 
-        if form.is_valid():
-            user = form.save()
-            login(request,user)
-            messages.success(request, 'Your registration was successful')
-            return redirect('/')
+#         if form.is_valid():
+#             user = form.save()
+#             login(request,user)
+#             messages.success(request, 'Your registration was successful')
+#             return redirect('/')
     
-        else:
-            messages.error(request, 'Your registration was unsuccessful; please try again')
-            return redirect('/')  
+#         else:
+#             messages.error(request, 'Your registration was unsuccessful; please try again')
+#             return redirect('/')  
 
-    form = UserCreationForm()
-    context = {'form': form, 'error_message': error_message}
-    return render(request, 'registration/signup.html', context)
+#     form = UserCreationForm()
+#     context = {'form': form, 'error_message': error_message}
+#     return render(request, 'registration/signup.html', context)
 
 #LOGOUT USER MESSAGES
 @login_required
@@ -313,3 +317,11 @@ def recipe_ingredients(request):
     else:
         form = RecipeIngredients(request.POST)
         return render(request, 'recipes/step1.html', {'form': form})
+
+
+
+# for auth
+class SignUpView(generic.CreateView):
+    form_class = UserCreationForm
+    success_url = reverse_lazy("login")
+    template_name = "registration/signup.html"

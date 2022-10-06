@@ -2,10 +2,13 @@
 from django.urls import path
 from . import views
 from .views import nav_view, image_to_text
+from .views import SignUpView
+
 
 urlpatterns = [
     path('', views.home, name='home'),
     path('about/', views.about, name='about'),
+
 
     #RECIPES
     path('recipes/', views.recipes_index, name='recipes_index'),
@@ -29,7 +32,7 @@ urlpatterns = [
 
 
     #USER
-    path('accounts/signup/', views.signup, name='signup'),
+    path('signup/', SignUpView.as_view(), name="signup"),
     path('user/<int:pk>', views.UserDetail.as_view(), name='user_detail'),
     path('user/<int:pk>/update', views.UserUpdate.as_view(), name='user_update'),
     path('user/<int:pk>/delete', views.UserDelete.as_view(), name='user_delete'),
