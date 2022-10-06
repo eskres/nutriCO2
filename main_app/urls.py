@@ -15,11 +15,13 @@ urlpatterns = [
     path('recipes/<int:pk>/delete/', views.RecipeDelete.as_view(), name='recipe_delete'),
 
     #CUSTOM INGREDIENTS
-    path('custom_ingredients/', views.CustomIngredientList.as_view(), name='custom_ingredients_index'),
-    path('custom_ingredients/<int:ingredient_id>', views.custom_ingredients_detail, name='ingredient_detail'),
+    path('custom_ingredients/', views.custom_ingredients_index, name='custom_ingredients_index'),
+
+    path('custom_ingredients/<int:custom_ingredient_id>', views.custom_ingredient_detail, name='custom_ingredient_detail'),
+
     path('custom_ingredients/create/', views.CustomIngredientCreate.as_view(), name='custom_ingredients_create'),
-    path('custom_ingredients/<int:pk>/update', views.CustomIngredientUpdate.as_view(), name='custom_ingredients_update'),
-    path('custom_ingredients/<int:pk>/delete', views.CustomIngredientDelete.as_view(), name='custom_ingredients_delete'),
+    path('custom_ingredients/<int:pk>/update', views.CustomIngredientUpdate.as_view(), name='custom_ingredient_update'),
+    path('custom_ingredients/<int:pk>/delete', views.CustomIngredientDelete.as_view(), name='custom_ingredient_delete'),
 
 
     #ASSOCIATE INGREDIENT

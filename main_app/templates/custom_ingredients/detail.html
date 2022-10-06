@@ -10,9 +10,11 @@
         <div class="card-content">
             <span class="card-title">{{ custom_ingredient.name }}<span>
                 <p>Description : {{ custom_ingredient.description }} </p>
-                <!-- <p>Users: {{ recipe.portions }}</p> -->
 
-
+                <div class="card-action">
+                    <a href="{% url 'custom_ingredient_update' custom_ingredient.id %}">Edit</a>
+                    <a href="{% url 'custom_ingredient_delete' custom_ingredient.id %}">Delete</a>
+                </div>
 
     
 

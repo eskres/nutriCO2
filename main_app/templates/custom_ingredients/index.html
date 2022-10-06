@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% include 'nav.html' %}
+    <div class="container">
+        <h1>My Ingredients</h1>
+        <div class="card-deck">
+            {% for custom_ingredient in custom_ingredients %}
+            <div class="col-sm-6">
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title">{{ custom_ingredient.name }}</h5>
+                    <p class="card-text">{{ custom_ingredient.description }}, CO2E/kg: {{ custom_ingredient.co2e }}
+                    </p>
+                    <a href="{% url 'custom_ingredient_detail' custom_ingredient.id %}" class="btn btn-primary">View</a>
+                  </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

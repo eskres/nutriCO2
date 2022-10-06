@@ -1,7 +1,6 @@
 from datetime import date
 from email.mime import image
 from email.policy import default
-from typing_extensions import Required
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
@@ -11,13 +10,21 @@ from django.contrib.auth.models import User
 class CustomIngredient(models.Model):
     name = models.CharField(max_length=100)
     description = models.CharField(max_length=100, default="")
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    co2e = models.FloatField(null=True)
+
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse('custom_ingredient_detail', kwargs={'custom_ingredient_id': self.id})
 
 # INGREDIENTS PROVIDED WITH CO2E/KG DATA
 class Ingredient(models.Model):
     name = models.CharField(max_length=100)
-    description = models.CharField(max_length=100, default="")
+    # description = models.CharField(max_length=100, default="")
     category = models.CharField(max_length=100, default="")
-    production_region = models.CharField(max_length=100, default="")
+    # production_region = models.CharField(max_length=100, default="")
     co2e_min = models.FloatField()
     co2e_max = models.FloatField()
     co2e_med = models.FloatField()
@@ -26,7 +33,7 @@ class Ingredient(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('ingredients_detail', kwargs={'pk': self.id})
+        return reverse('ingredient_detail', kwargs={'ingredient_id': self.id})
 
 class Recipe(models.Model):
     name = models.CharField(max_length=100)
@@ -34,19 +41,28 @@ class Recipe(models.Model):
     upload_image_of_ingredients = models.ImageField(upload_to = 'main_app/static/uploads/', default="")
     description = models.CharField(max_length=100)
     category = models.CharField(max_length=100, default="")
-    custom_ingredients = models.ManyToManyField(CustomIngredient)
-    ingredients = models.ManyToManyField(Ingredient)
+    custom_ingredients = models.ManyToManyField(CustomIngredient, through='IngredientQuantity')
+    ingredients = models.ManyToManyField(Ingredient, through='IngredientQuantity')
     method = models.CharField(max_length=300, default="")
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     public = models.BooleanField(default=False)
     # user id? 
-
 
     def get_absolute_url(self):
         return reverse('recipe_detail', kwargs = {'recipe_id': self.id })
 
     def __str__(self):
         return self.name
+
+class IngredientQuantity(models.Model):
+    custom_ingredient = models.ForeignKey(CustomIngredient, on_delete=models.CASCADE)
+    ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=False)
+
+    def __str__(self):
+        return "{}_{}".format(self.sandwich.__str__(), self.sauce.__str__())
+
 
 class User(models.Model):
     name = models.CharField(max_length=100)
