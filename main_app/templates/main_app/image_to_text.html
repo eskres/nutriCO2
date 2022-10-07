@@ -2,11 +2,13 @@
 
 {% block content %}
 {% include 'nav.html' %}
-<form action="" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Submit">
-</form>
+<div class="container">
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Image to Text" class="btn btn-primary" formaction="{% url 'update_method' recipe.id %}">
+    </form>
+</div>
 <script>
     let textbox = document.getElementById('id_text')
     let data = JSON.parse("{{result|escapejs}}");
@@ -14,6 +16,7 @@
     console.log(data)
     console.log(data.all_text)
     textbox.value = data.all_text
+    // textbox.style.height = '500px'
 </script>
         
 

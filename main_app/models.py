@@ -38,14 +38,15 @@ class Ingredient(models.Model):
 class Recipe(models.Model):
     name = models.CharField(max_length=100)
     image = models.ImageField(upload_to = 'main_app/static/uploads/', default="")
-    upload_image_of_ingredients = models.ImageField(upload_to = 'main_app/static/uploads/', default="")
+    # upload_image_of_ingredients = models.ImageField(upload_to = 'main_app/static/uploads/', default="")
     description = models.CharField(max_length=100)
     category = models.CharField(max_length=100, default="")
     custom_ingredients = models.ManyToManyField(CustomIngredient, blank=True, through='IngredientQuantity')
     ingredients = models.ManyToManyField(Ingredient, blank=True, through='IngredientQuantity')
-    method = models.CharField(max_length=300, default="")
+    method = models.CharField(max_length=1000, default="")
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     public = models.BooleanField(default=False)
+    carbon_calculation = models.FloatField(default=False, null=True)
     # user id? 
 
     def get_absolute_url(self):
@@ -59,9 +60,6 @@ class IngredientQuantity(models.Model):
     ingredient = models.ForeignKey(Ingredient, null=True, on_delete=models.CASCADE)
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=False)
-
-    # def __str__(self):
-    #     return "{}_{}".format(self.sandwich.__str__(), self.sauce.__str__())
 
 
 class User(models.Model):

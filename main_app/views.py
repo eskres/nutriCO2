@@ -1,7 +1,7 @@
 from unicodedata import name
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .models import Recipe, CustomIngredient, Ingredient, User
+from .models import IngredientQuantity, Recipe, CustomIngredient, Ingredient, User
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView
 from django.contrib.auth.forms import UserCreationForm
@@ -9,7 +9,7 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.template import loader
-from .forms import ImageTextForm, RecipeIngredients
+from .forms import ImageTextForm, RecipeIngredients, RecipeCustomIngredients
 import os
 import requests
 from django.utils.encoding import smart_bytes
@@ -21,6 +21,8 @@ from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views import generic
+from dal import autocomplete
+from django.core import serializers
 
 
 # Create your views here.
@@ -47,12 +49,7 @@ class RecipeCreate(LoginRequiredMixin, CreateView):
 
 class RecipeUpdate(LoginRequiredMixin, UpdateView):
     model = Recipe
-    fields = ['name', 'image', 'upload_image_of_ingredients', 'description', 'category', 'custom_ingredients', 'ingredients', 'method', 'public']
-
-        # def __init__(self, *args, **kwargs):
-        #     super(Recipe, self).__init__(*args, **kwargs)
-        #     for key in self.fields:
-        #         self.fields[key].required = False
+    fields = ['name', 'image', 'upload_image_of_ingredients', 'description', 'category', 'method', 'public']
 
 class RecipeDelete(LoginRequiredMixin, DeleteView):
     model = Recipe
@@ -78,11 +75,69 @@ def addRecipe(request):
 def recipes_index(request):
     recipes = Recipe.objects.all()
     return render(request, 'recipes/index.html', { 'recipes': recipes})
+# ---------------------------------------------------------------- #
 
+#RECIPE DETAIL
 @login_required
 def recipe_detail(request, recipe_id):
     recipe = Recipe.objects.get(id=recipe_id)
-    return render(request, 'recipes/detail.html', { 'recipe': recipe})
+    ingqty = IngredientQuantity.objects.filter(recipe_id = recipe_id)
+    form1 = RecipeIngredients(request.POST)
+    form2 = RecipeCustomIngredients(request.POST)
+    return render(request, 'recipes/detail.html', { 'recipe': recipe, 'form1': form1, 'form2': form2, 'ingqty': ingqty})
+
+# ---------------------------------------------------------------- #
+
+#ASSOCIATE AND UNASSOCIATE INGREDIENTS WITH RECIPES
+
+def assoc_ingredient(request, recipe_id):
+    Recipe.objects.get(id = recipe_id).ingredients.add(request.POST['ingredient'])
+    row = IngredientQuantity.objects.get(recipe_id = recipe_id, ingredient_id = request.POST['ingredient'])
+    row.quantity = request.POST['quantity']
+    row.save()
+    return redirect('recipe_detail', recipe_id = recipe_id)
+
+def unassoc_ingredient(request, recipe_id):
+    Recipe.objects.get(id = recipe_id).ingredients.remove(request.POST['ingredient'])
+    return redirect('recipe_detail', recipe_id = recipe_id)
+# ---------------------------------------------------------------- #
+
+#ASSOCIATE AND UNASSOCIATE CUSTOM_INGREDIENTS WITH RECIPES
+
+def assoc_custom_ingredient(request, recipe_id):
+    Recipe.objects.get(id = recipe_id).custom_ingredients.add(request.POST['custom_ingredient'])
+    row = IngredientQuantity.objects.get(recipe_id = recipe_id, custom_ingredient_id = request.POST['custom_ingredient'])
+    row.quantity = request.POST['quantity']
+    row.save()
+    return redirect('recipe_detail', recipe_id = recipe_id)
+
+def unassoc_custom_ingredient(request, recipe_id):
+    Recipe.objects.get(id = recipe_id).custom_ingredients.remove(request.POST['custom_ingredient'])
+    return redirect('recipe_detail', recipe_id = recipe_id)
+# ---------------------------------------------------------------- #
+
+#Calculate Carbon emmissions
+def carbon_calculation(request, recipe_id):
+    qty = IngredientQuantity.objects.filter(recipe_id = recipe_id)
+    count = 0
+    for q in qty:
+        if q.quantity is not None and q.ingredient is not None:
+            co2 = Ingredient.objects.get(id = q.ingredient.id).co2e_med
+            count += (co2 * q.quantity)
+            print(count)
+    recipe = Recipe.objects.get(id = recipe_id)
+    recipe.carbon_calculation = count
+    recipe.save()
+    return redirect('recipe_detail', recipe_id = recipe_id)
+# ---------------------------------------------------------------- #
+# POST METHOD FROM IMAGE
+def update_method(request, recipe_id):
+    recipe = Recipe.objects.get(id = recipe_id)
+    recipe.method = request.POST['text']
+    recipe.save()
+    return redirect('recipe_detail', recipe_id = recipe_id)
+
+# ---------------------------------------------------------------- #
 
 # NEW NEW NEW
 @login_required
@@ -180,17 +235,6 @@ def password_change(request):
     form = SetPasswordForm(user)
     return render(request, 'password_reset_confirm.html', {'form': form})
 
-# ---------------------------------------------------------------- #
-
-#ASSOCIATE AND UNASSOCIATE INGREDIENTS WITH RECIPES
-
-def assoc_ingredient(request, recipe_id, ingredient_id):
-    Recipe.objects.get(id = recipe_id).ingredients.add(ingredient_id)
-    return redirect('detail', recipe_id = recipe_id)
-
-def unassoc_ingredient(request, recipe_id, ingredient_id):
-    Recipe.objects.get(id = recipe_id).ingredients.remove(ingredient_id)
-    return redirect('detail', recipe_id = recipe_id)
 
 #NAV BAR
 def nav_view(request):
@@ -229,7 +273,8 @@ class UserDelete(LoginRequiredMixin, DeleteView):
 #     return render(request, 'user/profile.html', { 'user': user})
 
 #IMAGE TO TEXT API (100% Einar's work))
-def image_to_text(request):
+def method_image_to_text(request, recipe_id):
+    recipe = Recipe.objects.get(id = recipe_id)
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
@@ -260,14 +305,14 @@ def image_to_text(request):
             # # # # DO CODE!!!!
             resultJSON = json.dumps(result)
             # print(resultJSON)
-            return render(request, 'main_app/image_to_text.html', {'form': form, 'result': resultJSON})
+            return render(request, 'main_app/image_to_text.html', {'form': form, 'result': resultJSON, 'recipe': recipe})
             # return redirect('/')
         else:
             print('not valid')
     # if a GET (or any other method) we'll create a blank form
     else:
         form = ImageTextForm()
-    return render(request, 'main_app/image_to_text.html', {'form': form})
+    return render(request, 'main_app/image_to_text.html', {'form': form, 'recipe': recipe})
 
 
 def calculate_nutrition(request):
@@ -300,26 +345,6 @@ def calculate_nutrition(request):
     else:
         return redirect('recipes/create/')
 
-@login_required
-def recipe_ingredients(request):
-    if request.method == 'POST':
-        form = RecipeIngredients(request.POST)
-        print('not valid')
-        if form.is_valid():
-            print('valid')
-            # new_feeding = form.save(commit=False)
-            # new_feeding.cat_id = cat_id
-            # new_feeding.save()
-            return redirect('/')
-        else:
-            print('not valid')
-    else:
-        form = RecipeIngredients(request.POST)
-        return render(request, 'recipes/step1.html', {'form': form})
-
-
-
-
 # ! OLD SIGN UP METHOD
 #SIGN UP USER MESSAGES
 # def signup(request):
@@ -339,3 +364,42 @@ def recipe_ingredients(request):
 #     form = UserCreationForm()
 #     context = {'form': form, 'error_message': error_message}
 #     return render(request, 'registration/signup.html', context)
+
+class IngredientAutocomplete(autocomplete.Select2QuerySetView):
+    def get_queryset(self):
+        # Don't forget to filter out results depending on the visitor !
+        if not self.request.user.is_authenticated:
+            return Ingredient.objects.none()
+
+        qs = Ingredient.objects.all()
+
+        if self.q:
+            qs = qs.filter(name__istartswith=self.q)
+            print(qs)
+        return qs
+    def get_result_value(self, result):
+            print(result)
+            return result.pk   
+
+class CustomIngredientAutocomplete(autocomplete.Select2QuerySetView):
+    def get_queryset(self):
+        # Don't forget to filter out results depending on the visitor !
+        if not self.request.user.is_authenticated:
+            return CustomIngredient.objects.none()
+
+        qs = CustomIngredient.objects.all()
+
+        if self.q:
+            qs = qs.filter(name__istartswith=self.q)
+        return qs
+
+#GET RECIPE AS JSON
+#--------------------------------------------------------------------------------#
+def get_recipe(request, recipe_id):
+    # recipe = serializers.serialize("json", Recipe.objects.filter(id = recipe_id))
+    # qty = IngredientQuantity.objects.filter(recipe_id=recipe_id).values()
+    #THIS ONE qty = IngredientQuantity.objects.filter(recipe_id = recipe_id).values('ingredient')
+    # print('!!',qty)
+    # print('!',recipe)
+
+    return redirect('recipe_detail', recipe_id = recipe_id)
