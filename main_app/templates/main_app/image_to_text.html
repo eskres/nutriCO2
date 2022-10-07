@@ -6,12 +6,13 @@
     <form action="" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
-        <input type="submit" value="Image to Text" class="btn btn-primary" formaction="{% url 'update_method' recipe.id %}">
+        <input type="submit" value="Convert" class="btn btn-primary" formaction="{% url 'method_image_to_text' recipe.id %}">
+        <input type="submit" value="Save" class="btn btn-primary" formaction="{% url 'update_method' recipe.id %}">
     </form>
 </div>
 <script>
     let textbox = document.getElementById('id_text')
-    let data = JSON.parse("{{result|escapejs}}");
+    let data = JSON.parse('{{result|escapejs}}');
     console.log(typeof(data))
     console.log(data)
     console.log(data.all_text)

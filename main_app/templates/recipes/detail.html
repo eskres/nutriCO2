@@ -98,10 +98,8 @@
         <br>
         <div class="container">
             <h3>Update Recipe Method via Image Upload</h3>
-            <form action="" method="post">
                 {% csrf_token %}
-                <input type="submit" value="Image to Text" class="btn btn-primary" formaction="{% url 'method_image_to_text' recipe.id%}">
-            </form>
+                <a class="btn btn-primary" href="{% url 'method_image_to_text' recipe.id%}">Image to Text</a>
         </div>
         </div>
     </div>
