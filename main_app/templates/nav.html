@@ -2,7 +2,7 @@
     <div class="container">
         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
             <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
-            <a href="{% url 'home' %}" class="navbar-brand">Nutrico</a>
+            <a href="{% url 'home' %}" class="navbar-brand">NutriCO2</a>
             </a>
     
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-start mb-md-0 flex-grow-1">
@@ -39,7 +39,6 @@
                     <li><a class="dropdown-item" href="{% url 'user_detail' user.id %}">Profile</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="{% url 'logout' %}">Log Out</a></li>
-                    <li><a href="{% url 'form' %}" class="dropdown-item">Form</a></li>
                 </ul>
             </div>
             {% else %}

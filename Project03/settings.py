@@ -53,6 +53,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'crispy_forms',
+    'dal',
+    'dal_select2',
+    # 'grappelli',
 ]
 
 CRISPY_TEMPLATE_PACK = 'uni_form'

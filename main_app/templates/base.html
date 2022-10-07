@@ -21,6 +21,26 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
-
+        {{form1.media}}
+        <script>
+            (function($) {
+                $('#add-form').click(function() {
+                    var index = $('#id_inline_test_models-TOTAL_FORMS').val()
+                    var newTable = $('#id_inline_test_models-__prefix__-DELETE').parents('table').clone()
+                    newTable.find(':input').each(function() {
+                        for (attr of ['name', 'id'])
+                            $(this).attr(
+                                attr,
+                                $(this).attr(attr).replace('__prefix__', index)
+                            )
+                    })
+                    newTable.insertBefore($(this))
+                    $('#id_inline_test_models-TOTAL_FORMS').val(
+                        parseInt($('#id_inline_test_models-TOTAL_FORMS').val()) + 1
+                    )
+                    newTable.slideDown()
+                })
+            })($)
+        </script>
     </body> 
 </html>

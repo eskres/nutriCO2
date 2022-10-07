@@ -1,34 +1,110 @@
 {% extends 'base.html' %}
 
-
-
-
 {% block content %}
 {% include 'nav.html' %}
 
-    <h1>RECIPE DETAIL SCREEN</h1>
+    <div class="container">
+        <h1>{{ recipe.name }}</h1>
+    </div>
+    <div class="container">
+        <p>Description: {{ recipe.description }} </p>
+        <p>Image: {{ recipe.image }}<p></p> 
+        <!-- <p>Category: {{ recee.category }}</p> -->
+        {% if ingqty %}
+        <table class="table">
+            <thead>
+                <tr>
+                <th scope="col">Ingredients</th>
+                <th scope="col">Quantity (kg)</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for ingqty in ingqty %}
+                {% if ingqty.custom_ingredient is not None %}
+                    <tr>
+                    <td>{{ ingqty.custom_ingredient }}</td>
+                    <td>{{ ingqty.quantity }}</td>
+                    <td>{{ ingredient.name }}</td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+            {% for ingqty in ingqty %}
+                {% if ingqty.ingredient is not None %}
+                    <tr>
+                    <td>{{ ingqty.ingredient }}</td>
+                    <td>{{ ingqty.quantity }}</td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+            </tbody>
+            </table>
+        {% else %}
+            <h3>No ingredients</h3>
+        {% endif %}
+        
+        <p>Method: {{ recipe.method }}</p>
+        <p>Portions: {{ recipe.portions }}</p>
+        <p>Nutritional Value: {{ recipe.nutrition }}</p>
+        <p>Your estimated GHG emissions for this recipe is {{ recipe.carbon_calculation }}CO2e based on the median data we have collated plus any of your own ingredient emissions figures</p>
+        <!-- <p>Users: {{ recipe.portions }}</p> -->
 
-    <div class="card">
-        <div class="card-content">
-            <span class="card-title">{{ recipe.name }}<span>
-                <p>Description: {{ recipe.description }} </p>
-                <p>Image: {{ recipe.image }}<p></p> 
-                <p>Category: {{ receipte.category }}</p>
-                <p>Ingredients: {{ recipe.ingredients }} </p>
-                <!-- can we get ingredients to auto flag any allergies? I.e. if cheese is an ingredient it would flag up dairy? -->
-                <p>Method: {{ recipe.method }}</p>
-                <p>Portions: {{ recipe.portions }}</p>
-                <p>Nutritional Value: {{ recipe.nutrition }}</p>
-                <p>Carbon Emissions of Ingredients: {{ recipe.emissions }}</p>
-                <!-- <p>Users: {{ recipe.portions }}</p> -->
+        <div class="card-action">
+            <a href="{% url 'recipe_update' recipe.id %}">Edit</a>
+            <a href="{% url 'recipe_delete' recipe.id %}">Delete</a>
+        </div>
+        <h1>Add ingredients to your recipe...</h1>
 
-                <div class="card-action">
-                    <a href="{% url 'recipe_update' recipe.id %}">Edit</a>
-                    <a href="{% url 'recipe_delete' recipe.id %}">Delete</a>
-                </div>
-
-             
+        <div class="container">
+            <form action="" method="post">
+                {% csrf_token %}
+                {{ form1.as_p }}
+            
+                <table style="display: none">
+                    {{ view.formset.empty_form }}
+                </table>
+            
+                <table>
+                    {{ view.formset }}
+                </table>
+            
+                <input type="submit" value="Add/Update" class="btn btn-primary" formaction="{% url 'assoc_ingredient' recipe.id %}">
+                <input type="submit" value="Remove" class="btn btn-primary" formaction="{% url 'unassoc_ingredient' recipe.id %}">
+            </form>
+        </div>
+    <br>   
+        <div class="container">
+            <form action="" method="post">
+                {% csrf_token %}
+                {{ form2.as_p }}
+            
+                <table style="display: none">
+                    {{ view.formset.empty_form }}
+                </table>
+            
+                <table>
+                    {{ view.formset }}
+                </table>
+                <input type="submit" value="Add/Update" class="btn btn-primary" formaction="{% url 'assoc_custom_ingredient' recipe.id %}">
+                <input type="submit" value="Remove" class="btn btn-primary" formaction="{% url 'unassoc_custom_ingredient' recipe.id %}">
+            </form>
+        </div>
+    <br>
+        <div class="container">
+            <form action="" method="post">
+                {% csrf_token %}
+                <input type="submit" value="Calculate Emissions" class="btn btn-primary" formaction="{% url 'carbon_calculation' recipe.id %}">
+            </form>
+        </div>
+        <br>
+        <div class="container">
+            <h3>Update Recipe Method via Image Upload</h3>
+            <form action="" method="post">
+                {% csrf_token %}
+                <input type="submit" value="Image to Text" class="btn btn-primary" formaction="{% url 'method_image_to_text' recipe.id%}">
+            </form>
+        </div>
         </div>
     </div>
+    <a href="{% url 'json' recipe.id %}">JSON</a>
 
 {% endblock %}

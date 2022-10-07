@@ -1,7 +1,7 @@
 
-from django.urls import path
+from django.urls import path, re_path
 from . import views
-from .views import nav_view, image_to_text
+from .views import nav_view, method_image_to_text, IngredientAutocomplete, CustomIngredientAutocomplete
 from .views import SignUpView
 
 
@@ -16,21 +16,27 @@ urlpatterns = [
     path('recipes/create/', views.RecipeCreate.as_view(), name='recipes_create'),
     path('recipes/<int:pk>/update/', views.RecipeUpdate.as_view(), name='recipe_update'),
     path('recipes/<int:pk>/delete/', views.RecipeDelete.as_view(), name='recipe_delete'),
+    path('recipes/<int:recipe_id>/carbon', views.carbon_calculation, name='carbon_calculation'),
+    path('recipes/<int:recipe_id>/method/image_to_text/', views.method_image_to_text, name='method_image_to_text'),
+    path('recipes/<int:recipe_id>/method/update/', views.update_method, name='update_method'),
+
 
     #CUSTOM INGREDIENTS
     path('custom_ingredients/', views.custom_ingredients_index, name='custom_ingredients_index'),
-
     path('custom_ingredients/<int:custom_ingredient_id>', views.custom_ingredient_detail, name='custom_ingredient_detail'),
-
     path('custom_ingredients/create/', views.CustomIngredientCreate.as_view(), name='custom_ingredients_create'),
     path('custom_ingredients/<int:pk>/update', views.CustomIngredientUpdate.as_view(), name='custom_ingredient_update'),
     path('custom_ingredients/<int:pk>/delete', views.CustomIngredientDelete.as_view(), name='custom_ingredient_delete'),
+    #ASSOCIATE CUSTOM_INGREDIENT
+    path('recipes/<int:recipe_id>/assoc_custom_ingredient/', views.assoc_custom_ingredient, name="assoc_custom_ingredient"),
+    #UNASSOCIATE CUSTOM_INGREDIENT
+    path('recipes/<int:recipe_id>/unassoc_custom_ingredient/', views.unassoc_custom_ingredient, name="unassoc_custom_ingredient"),
 
 
     #ASSOCIATE INGREDIENT
-    path('recipes/<int:recipe_id>/assoc_ingredient/<int:ingredient_id>', views.assoc_ingredient, name="assoc_ingredient"),
+    path('recipes/<int:recipe_id>/assoc_ingredient/', views.assoc_ingredient, name="assoc_ingredient"),
     #UNASSOCIATE INGREDIENT
-    path('recipes/<int:recipe_id>/assoc_ingredient/<int:ingredient_id>', views.unassoc_ingredient, name="unassoc_ingredient"),
+    path('recipes/<int:recipe_id>unassoc_ingredient/', views.unassoc_ingredient, name="unassoc_ingredient"),
 
 
     #USER
@@ -55,8 +61,13 @@ urlpatterns = [
     path('', nav_view),
 
     # IMAGE FORM
-    path('form/', views.image_to_text, name='form'),
+    
+    # JSON RECIPE
+    path('json/<int:recipe_id>', views.get_recipe, name='json'),
 
-    # RECIPE FORM STEP 1
-    path('recipes/step1', views.recipe_ingredients, name='step1'),
+
+    
+
+    re_path(r'^ingredient-autocomplete/$', IngredientAutocomplete.as_view(), name='ingredient_autocomplete'),
+    re_path(r'^custom_ingredient-autocomplete/$', CustomIngredientAutocomplete.as_view(), name='custom_ingredient_autocomplete'),
 ]
