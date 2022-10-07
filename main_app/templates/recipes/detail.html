@@ -15,7 +15,7 @@
             <thead>
                 <tr>
                 <th scope="col">Ingredients</th>
-                <th scope="col">Quantity</th>
+                <th scope="col">Quantity (kg)</th>
                 </tr>
             </thead>
             <tbody>
@@ -45,7 +45,7 @@
         <p>Method: {{ recipe.method }}</p>
         <p>Portions: {{ recipe.portions }}</p>
         <p>Nutritional Value: {{ recipe.nutrition }}</p>
-        <p>Your estimated GHG emissions for this recipe is {{ recipe.carbon_calculation }}CO2e based on the median data we have collated</p>
+        <p>Your estimated GHG emissions for this recipe is {{ recipe.carbon_calculation }}CO2e based on the median data we have collated plus any of your own ingredient emissions figures</p>
         <!-- <p>Users: {{ recipe.portions }}</p> -->
 
         <div class="card-action">

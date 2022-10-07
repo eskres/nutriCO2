@@ -49,7 +49,7 @@ class RecipeCreate(LoginRequiredMixin, CreateView):
 
 class RecipeUpdate(LoginRequiredMixin, UpdateView):
     model = Recipe
-    fields = ['name', 'image', 'upload_image_of_ingredients', 'description', 'category', 'method', 'public']
+    fields = ['name', 'image', 'description', 'category', 'method', 'public']
 
 class RecipeDelete(LoginRequiredMixin, DeleteView):
     model = Recipe
@@ -123,6 +123,10 @@ def carbon_calculation(request, recipe_id):
     for q in qty:
         if q.quantity is not None and q.ingredient is not None:
             co2 = Ingredient.objects.get(id = q.ingredient.id).co2e_med
+            count += (co2 * q.quantity)
+            print(count)
+        elif q.quantity is not None and q.custom_ingredient is not None:
+            co2 = CustomIngredient.objects.get(id = q.custom_ingredient.id).co2e
             count += (co2 * q.quantity)
             print(count)
     recipe = Recipe.objects.get(id = recipe_id)
