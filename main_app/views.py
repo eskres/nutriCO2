@@ -328,7 +328,7 @@ def method_image_to_text(request, recipe_id):
             payload = smart_bytes(receipt_image, encoding="utf-8", strings_only=False, errors="strict")
             headers= {
             # "apikey": os.getenv('APIKEY')
-            "apikey": 'OEgEEQl78jXRGAnGHnEugqPQWgMRU9C9'
+            "apikey": 'j5bBeYtVScafh6Q3BmKwgobGfvawvsBZ'
             }
 
             response = requests.request("POST", url, headers=headers, data=payload)
