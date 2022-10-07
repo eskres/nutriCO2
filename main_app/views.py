@@ -324,30 +324,30 @@ def method_image_to_text(request, recipe_id):
         # check whether it's valid:
         if form.is_valid():
             print('valid')
-            result = {"lang": "en", "all_text": "2 tbsp extra-virgin olive oil,\nplus extra for drizzling\n300g sweet potato\n(unpeeled), cut into\n1cm cubes\n50g spring onions, trimmed\nand finely chopped\n4 eggs\n1 tsp dried thyme\n1 tsp dried oregano\n1 tsp sweet paprika\n\u00bd tsp cayenne pepper,\nplus extra to serve\n\u00bd tsp ground black pepper\n100g curly kale, stems\nremoved and leaves\nroughly chopped\n100g sweetcorn kernels\n(fresh, frozen or tinned)\n25g sunflower seeds, toasted\nand lightly crushed\nsea salt and freshly\nground black pepper\n\u314f\na\nM\nt\nF", "annotations": ["2", "tbsp", "extra", "-", "virgin", "olive", "oil", ",", "plus", "extra", "for", "drizzling", "300g", "sweet", "potato", "(", "unpeeled", ")", ",", "cut", "into", "1cm", "cubes", "50g", "spring", "onions", ",", "trimmed", "and", "finely", "chopped", "4", "eggs", "1", "tsp", "dried", "thyme", "1", "tsp", "dried", "oregano", "1", "tsp", "sweet", "paprika", "\u00bd", "tsp", "cayenne", "pepper", ",", "plus", "extra", "to", "serve", "\u00bd", "tsp", "ground", "black", "pepper", "100g", "curly", "kale", ",", "stems", "removed", "and", "leaves", "roughly", "chopped", "100g", "sweetcorn", "kernels", "(", "fresh", ",", "frozen", "or", "tinned", ")", "25g", "sunflower", "seeds", ",", "toasted", "and", "lightly", "crushed", "sea", "salt", "and", "freshly", "ground", "black", "pepper", "\u314f", "a", "M", "t", "F"]}
 
-            # request.encoding = 'utf-8'
-            # imageFile = request.FILES["image"]
-            # receipt_image = imageFile.read()
+            request.encoding = 'utf-8'
+            imageFile = request.FILES["image"]
+            receipt_image = imageFile.read()
             
-            # url = "https://api.apilayer.com/image_to_text/upload"
+            url = "https://api.apilayer.com/image_to_text/upload"
 
-            # payload = smart_bytes(receipt_image, encoding="utf-8", strings_only=False, errors="strict")
-            # headers= {
+            payload = smart_bytes(receipt_image, encoding="utf-8", strings_only=False, errors="strict")
+            headers= {
             # "apikey": os.getenv('APIKEY')
-            # }
+            "apikey": 'OEgEEQl78jXRGAnGHnEugqPQWgMRU9C9'
+            }
 
-            # response = requests.request("POST", url, headers=headers, data=payload)
+            response = requests.request("POST", url, headers=headers, data=payload)
 
-            # status_code = response.status_code
-            # result = response.text
-            # print(status_code)
+            status_code = response.status_code
+            result = response.text
+            print(result)
 
             # # # # MANIPULATE RESPONSE HERE
             # # # # DO CODE!!!!
             resultJSON = json.dumps(result)
             # print(resultJSON)
-            return render(request, 'main_app/image_to_text.html', {'form': form, 'result': resultJSON, 'recipe': recipe})
+            return render(request, 'main_app/image_to_text.html', {'form': form, 'result': result, 'recipe': recipe})
             # return redirect('/')
         else:
             print('not valid')
