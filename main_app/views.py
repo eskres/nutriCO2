@@ -76,13 +76,7 @@ class RecipeCreate(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
-        if form.is_valid():
-            messages.success(self.request, 'recipe added')
-            return render(self.request,'recipes/index.html', {'success': 'recipe added'})
-            # return super().form_valid(form)
-        else:
-            messages.error(self.request, 'The recipe was not saved, please try again.')
-            return render(self.request, 'recipes/create.html', { 'error': 'The recipe was not saved, please try again.'})
+        return super().form_valid(form)
 
 class RecipeUpdate(LoginRequiredMixin, UpdateView):
     model = Recipe
