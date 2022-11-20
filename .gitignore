@@ -1,3 +1,4 @@
 .env
 /migrations/
 /Project03/__pycache__/
+/static/uploads/

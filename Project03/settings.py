@@ -45,7 +45,6 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'main_app',
-
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -56,6 +55,7 @@ INSTALLED_APPS = [
     'dal',
     'dal_select2',
     # 'grappelli',
+    'cloudinary'
 ]
 
 CRISPY_TEMPLATE_PACK = 'uni_form'
@@ -167,3 +167,14 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 import django_heroku
 django_heroku.settings(locals()) 
+
+
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
+cloudinary.config( 
+  cloud_name = os.getenv("cloudinary_cloud_name"), 
+  api_key = os.getenv("cloudinary_api_key"), 
+  api_secret = os.getenv("cloudinary_api_secret") 
+)
