@@ -1,4 +1,6 @@
 .env
 /migrations/
+/main_app/__pycache__/
 /Project03/__pycache__/
 /static/uploads/
+/planning/
