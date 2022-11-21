@@ -66,7 +66,7 @@ We spent some time discussing possible ideas that would be both interesting and 
 To start off with, Dan created the folder and file structure to set up the project environment and I started collating data on CO2e emissions for food products from various publicly available sources online such as academic journals and the Research Institute of Sweden.
 
 ### Stage 2
-Dan moved on to building the core page structure which involved some pair-programming via Zoom with myself. However, I would say that 60% of my time at this point was still focussed on gathering data. I ended up with more than 500 lines of data that I needed to rationalise. I systematically sorted through and assessed the suitability of each data point, deciding whether to eliminate it or create an average value for the given ingredient if there were multiple data points.
+Dan moved on to building the core page structure which involved some pair-programming via Zoom with myself. However, I would say that 60% of my time at this point was still focussed on gathering data. I ended up with more than 500 lines of data that I needed to rationalise. Using Excel I systematically sorted through and assessed the suitability of each data point, deciding whether to eliminate it or create an average value for the given ingredient if there were multiple data points. At the same time I was formatting the data for upload to PostgreSQL.
 
 ### Stage 3
 I started working on implementing an Optical Character Recognition image to text API that Dan found during some early research as well as drafting the nutrition API request while Dan started working on the authorisation functionality.
