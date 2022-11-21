@@ -163,7 +163,7 @@ As our database has a many to many relationship between Ingredients, Custom Ingr
 
 ---
 ## Challenges
-My biggest challenge was working with the many to many relationships  and the through model. It permitted us to store additional data but was much more complex and consequently time consuming than I expected.
+My biggest challenge was working with the many to many relationships and the through model. It permitted us to store additional data but was much more complex and consequently time consuming than I expected.
 
 We were not able to fully overcome the challenges we encountered and consequently the project remains incomplete. Furthermore, with the benefit of hindsight it is obvious that I shouldn’t have spent such a large amount of time collecting data, whilst it is vital a project such as this is based on valid and reliable findings, I underestimated how challenging I would find it to build the site’s core functionality.
 
