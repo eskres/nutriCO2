@@ -53,7 +53,7 @@ Our brief was to create a web application of our choice from scratch in 7 days w
 ---
 ## Planning
 
-We spent some time discussing possible ideas that would be both interesting and practical. Dan has an interest in working in the environmental sector and I have a love for food and drink so we settled on the idea of creating a recipe app that calculates CO2 emissions and nutritional data for a given recipe. We agreed to remain on zoom throughout and to use pair-programming in order to assist each other as needed. We distributed tasks by reflecting on the skills we wanted to develop from previous projects. We came up with the name collaboratively and once we settled on the brief we started our planning by working on Wireframes (Dan) and an ERD using Miro (myself) before working together to create a Kanban board using Trello.
+We spent some time discussing possible ideas that would be both interesting and practical. Dan has an interest in working in the environmental sector and I have a love for food and drink so we settled on the idea of creating a recipe app that calculates CO2 emissions and nutritional data for a given recipe. We agreed to remain on Zoom throughout and to use pair-programming in order to assist each other as needed. We distributed tasks by reflecting on the skills we wanted to develop from previous projects. We came up with the name collaboratively and once we settled on the brief we started our planning by working on Wireframes (Dan) and an ERD using Miro (myself) before working together to create a Kanban board using Trello.
 
 # INSERT PLANNING
 
@@ -63,7 +63,7 @@ We spent some time discussing possible ideas that would be both interesting and 
 ## Build Process
 
 ### Stage 1
-To start off with, Dan created the folder and file structure to set up the project environment  and I started collating data on CO2e emissions for food products from various publicly available sources online such as academic journals and the Research Institute of Sweden.
+To start off with, Dan created the folder and file structure to set up the project environment and I started collating data on CO2e emissions for food products from various publicly available sources online such as academic journals and the Research Institute of Sweden.
 
 ### Stage 2
 Dan moved on to building the core page structure which involved some pair-programming via Zoom with myself. However, I would say that 60% of my time at this point was still focussed on gathering data. I ended up with more than 500 lines of data that I needed to rationalise. I systematically sorted through and assessed the suitability of each data point, deciding whether to eliminate it or create an average value for the given ingredient if there were multiple data points.
