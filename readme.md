@@ -1,4 +1,4 @@
-# Hop Little Bunny
+# NutriCO2
 
 Completed during my 9th week on General Assembly\'s Software Engineering Immersive, NutriCO2 is a recipe app that calculates CO2 emissions and nutritional data for a given recipe. This project was built using PostgreSQL, Python, Django, Bootstrap, HTML and CSS.
 
