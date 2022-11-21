@@ -187,6 +187,6 @@ As the project is incomplete I imagine there are quite a few bugs hiding in this
 
 ---
 ## Future Improvements
-My ambition is to complete this project. I think the idea is great and it deserves more attention. I hope to be able to share an updated version with you soon!
+My ambition is to complete this project. The homepage needs additional styling, as do the recipe listing page, ingredient listing page, ingredient forms and recipe detail. Some refinement of the recipe form functionality is also required. I think the idea is great and it deserves more attention. I hope to be able to share an updated version with you soon!
 
 ---
