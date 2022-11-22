@@ -38,7 +38,7 @@ SECRET_KEY = os.getenv('SECRETKEY'),
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['nutrico2.skreslett.com', '213.171.212.96']
 
 
 # Application definition
@@ -164,10 +164,7 @@ EMAIL_FILE_PATH = BASE_DIR / "sent_emails"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
-import django_heroku
-django_heroku.settings(locals()) 
-
+STATIC_ROOT = Path.joinpath(BASE_DIR, 'static')
 
 import cloudinary
 import cloudinary.uploader
