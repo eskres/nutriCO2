@@ -55,9 +55,17 @@ Our brief was to create a web application of our choice from scratch in 7 days w
 
 We spent some time discussing possible ideas that would be both interesting and practical. Dan has an interest in working in the environmental sector and I have a love for food and drink so we settled on the idea of creating a recipe app that calculates CO2 emissions and nutritional data for a given recipe. We agreed to remain on Zoom throughout and to use pair-programming in order to assist each other as needed. We distributed tasks by reflecting on the skills we wanted to develop from previous projects. We came up with the name collaboratively and once we settled on the brief we started our planning by working on Wireframes (Dan) and an ERD using Miro (myself) before working together to create a Kanban board using Trello.
 
-# INSERT PLANNING
+#### ERD v1
+![ERD v1](https://i.imgur.com/72HNqUG.png)
 
+#### ERD v2
+![ERD v2](https://i.imgur.com/PSpIGOV.jpg)
 
+### Wireframes
+![Wireframes](https://i.imgur.com/IrKdKnN.png)
+
+#### Trello
+![Trello](https://i.imgur.com/VfzmRkF.png)
 
 ---
 ## Build Process
